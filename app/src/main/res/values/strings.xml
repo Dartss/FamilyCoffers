@@ -7,5 +7,8 @@
     <string name="navigation_three">Tab Three</string>
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
+    <string name="tab_item_history">History</string>
+    <string name="tab_item_statistics">Statistics</string>
+    <string name="tab_item_expanses">Expanses</string>
 
 </resources>

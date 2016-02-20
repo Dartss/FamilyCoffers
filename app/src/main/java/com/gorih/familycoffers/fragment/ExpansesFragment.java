@@ -1,5 +1,6 @@
 package com.gorih.familycoffers.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,18 +10,18 @@ import android.view.ViewGroup;
 
 import com.gorih.familycoffers.R;
 
-
-public class ExampleFragment extends Fragment {
+public class ExpansesFragment extends AbstractFragment {
     private static final int LAYOUT = R.layout.fragment_example;
-    private View view;
-;
-    public static ExampleFragment getInstance() {
+
+    public static ExpansesFragment getInstance(Context context) {
         Bundle args = new Bundle();
 
-        ExampleFragment exampleFragment = new ExampleFragment();
-        exampleFragment.setArguments(args);
+        ExpansesFragment fragment = new ExpansesFragment();
+        fragment.setArguments(args);
+        fragment.setContext(context);
+        fragment.setTittle(context.getString(R.string.tab_item_expanses));
 
-        return exampleFragment;
+        return fragment;
     }
 
     @Nullable

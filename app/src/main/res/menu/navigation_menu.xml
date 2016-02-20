@@ -4,20 +4,20 @@
         android:id="@+id/action_tab_one_item"
         android:orderInCategory="1"
         android:title="@string/navigation_expanses"
-        android:icon="@drawable/attachment">
+        android:icon="@mipmap/ic_square_inc_cash">
     </item>
 
     <item
         android:id="@+id/action_tab_two_item"
         android:orderInCategory="2"
         android:title="@string/navigation_statistics"
-        android:icon="@drawable/attachment">
+        android:icon="@mipmap/ic_square_inc_cash">
     </item>
 
     <item
         android:id="@+id/action_tab_three_item"
         android:orderInCategory="3"
         android:title="@string/navigation_three"
-        android:icon="@drawable/attachment">
+        android:icon="@mipmap/ic_square_inc_cash">
     </item>
 </menu>
