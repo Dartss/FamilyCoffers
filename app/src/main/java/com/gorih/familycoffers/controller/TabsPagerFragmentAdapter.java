@@ -1,21 +1,18 @@
-package com.gorih.familycoffers.adapter;
+package com.gorih.familycoffers.controller;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.gorih.familycoffers.fragment.AbstractFragment;
-import com.gorih.familycoffers.fragment.ExpansesFragment;
-import com.gorih.familycoffers.fragment.HistoryFragment;
-import com.gorih.familycoffers.fragment.StatisticsFragment;
+import com.gorih.familycoffers.presenter.fragment.AbstractFragment;
+import com.gorih.familycoffers.presenter.fragment.CategoriesFragment;
+import com.gorih.familycoffers.presenter.fragment.HistoryFragment;
+import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 public class TabsPagerFragmentAdapter extends FragmentPagerAdapter {
@@ -34,7 +31,7 @@ public class TabsPagerFragmentAdapter extends FragmentPagerAdapter {
     private void initTabsMap(Context context) {
         tabs = new HashMap<>();
 
-        tabs.put(0, ExpansesFragment.getInstance(context));
+        tabs.put(0, CategoriesFragment.getInstance(context));
         tabs.put(1, StatisticsFragment.getInstance(context));
         tabs.put(2, HistoryFragment.getInstance(context));
     }

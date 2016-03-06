@@ -1,25 +1,24 @@
-package com.gorih.familycoffers.fragment;
+package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gorih.familycoffers.R;
 
-public class ExpansesFragment extends AbstractFragment {
-    private static final int LAYOUT = R.layout.fragment_example;
+public class HistoryFragment extends AbstractFragment {
+    private static final int LAYOUT = R.layout.fragment_history;
 
-    public static ExpansesFragment getInstance(Context context) {
+    public static HistoryFragment getInstance(Context context) {
         Bundle args = new Bundle();
 
-        ExpansesFragment fragment = new ExpansesFragment();
+        HistoryFragment fragment = new HistoryFragment();
         fragment.setArguments(args);
         fragment.setContext(context);
-        fragment.setTittle(context.getString(R.string.tab_item_expanses));
+        fragment.setTittle(context.getString(R.string.tab_item_history));
 
         return fragment;
     }
@@ -31,4 +30,5 @@ public class ExpansesFragment extends AbstractFragment {
 
         return view;
     }
+
 }

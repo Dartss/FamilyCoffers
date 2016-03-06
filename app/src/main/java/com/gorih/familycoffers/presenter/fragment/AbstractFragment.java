@@ -1,4 +1,4 @@
-package com.gorih.familycoffers.fragment;
+package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

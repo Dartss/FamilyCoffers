@@ -9,6 +9,8 @@
     <string name="view_navigation_close">Close</string>
     <string name="tab_item_history">History</string>
     <string name="tab_item_statistics">Statistics</string>
-    <string name="tab_item_expanses">Expanses</string>
+    <string name="tab_item_expanses">Categories</string>
+    <string name="dlg_new_category_btn_ok">ok</string>
+    <string name="dlg_new_category_tittle">New category</string>
 
 </resources>

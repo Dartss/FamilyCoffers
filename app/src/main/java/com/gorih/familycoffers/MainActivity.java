@@ -10,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.gorih.familycoffers.adapter.TabsPagerFragmentAdapter;
+import com.gorih.familycoffers.controller.CategoriesListAdapter;
+import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
+import com.gorih.familycoffers.model.Category;
+import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements dlgAddCategory.OnNewCategoryAddedListener{
 
     private Toolbar toolbar;
     private static final int LAYOUT = R.layout.activity_main;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         initNavigationView();
         initTabs();
     }
+
 
     private void initTabs() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -57,10 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_tab_one_item:
                         showTabExpanses();
+                        break;
                     case R.id.action_tab_two_item:
                         showTabStatistics();
+                        break;
                     case R.id.action_tab_three_item:
-                        showTabThree();
+                        showTabHistory();
+                        break;
                 }
                 return true;
             }
@@ -82,13 +89,17 @@ public class MainActivity extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.menu);
     }
 
-    private void showTabThree(){
-        viewPager.setCurrentItem(Constants.TAB_THREE);
+    @Override
+    public void onNewCategoryAdded(String newCategoryName) {
+        CategoriesListAdapter.addCategory(new Category(newCategoryName, R.color.colorDefaultCategory));
     }
+
+    private void showTabHistory(){ viewPager.setCurrentItem(Constants.TAB_HISTORY); }
     private void showTabExpanses(){
         viewPager.setCurrentItem(Constants.TAB_EXPANSES_LIST);
     }
     private void showTabStatistics(){
         viewPager.setCurrentItem(Constants.TAB_STATISTICS);
     }
+
 }

@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':AndroidCharts'
+project(':AndroidCharts').projectDir = new File('app/libs/AndroidCharts')
