@@ -1,5 +1,6 @@
 package com.gorih.familycoffers;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gorih.familycoffers.controller.CategoriesListAdapter;
+import com.gorih.familycoffers.controller.FileWorker;
 import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
 import com.gorih.familycoffers.model.Category;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements dlgAddCategory.On
         initToolbar();
         initNavigationView();
         initTabs();
+        FileWorker.init(this);
     }
 
 
@@ -91,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements dlgAddCategory.On
 
     @Override
     public void onNewCategoryAdded(String newCategoryName) {
-        CategoriesListAdapter.addCategory(new Category(newCategoryName, R.color.colorDefaultCategory));
+        CategoriesListAdapter.getInstance().
+                addCategory(new Category(newCategoryName, R.color.colorDefaultCategory));
     }
 
     private void showTabHistory(){ viewPager.setCurrentItem(Constants.TAB_HISTORY); }

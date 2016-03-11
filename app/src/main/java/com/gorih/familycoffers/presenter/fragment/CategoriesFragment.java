@@ -47,8 +47,9 @@ public class CategoriesFragment extends AbstractFragment {
                 Toast.makeText(getContext(), item.getName() + " Clicked", Toast.LENGTH_SHORT).show();
             }
         };
+        CategoriesListAdapter.init(onItemClickListener);
 
-        listWithCategoriesRv.setAdapter(CategoriesListAdapter.getInstance(onItemClickListener));
+        listWithCategoriesRv.setAdapter(CategoriesListAdapter.getInstance());
 
         initFAB(view);
 

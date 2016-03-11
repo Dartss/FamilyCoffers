@@ -11,30 +11,41 @@ import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.model.Category;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.categoriesViewHolder> {
 
-    private static List<Category> categories;
+    private List<Category> categories;
     private OnItemClickListener listener ;
-    private static CategoriesListAdapter adapter;
+    private final FileWorker fileWorker = FileWorker.getInstance();
 
+    private static CategoriesListAdapter adapter;
 
     public interface OnItemClickListener {
         void onItemClick(Category item);
     }
 
-    public static CategoriesListAdapter getInstance(OnItemClickListener listener) {
-        if (adapter == null) {
-            adapter = new CategoriesListAdapter(listener);
-        }
-
+    public static CategoriesListAdapter getInstance() {
         return adapter;
     }
 
+    public static void init(OnItemClickListener listener) {
+        if (adapter != null ) {
+            return;
+        }
+        adapter = new CategoriesListAdapter(listener);
+    }
+
+
     private CategoriesListAdapter(OnItemClickListener listener) {
-        categories = new ArrayList<>();
+        try {
+            categories = fileWorker.readCategories();
+        } catch (IOException error) {
+            categories = new ArrayList<>();
+        }
         this.listener = listener;
     }
 
@@ -49,8 +60,9 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
         return categories;
     }
 
-    public static void addCategory(Category newCategory) {
+    public void addCategory(Category newCategory) {
         categories.add(newCategory);
+        fileWorker.writeCategory(newCategory);
         adapter.notifyDataSetChanged();
     }
 
