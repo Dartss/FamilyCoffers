@@ -37,7 +37,7 @@ public class PieAsyncLoader extends AsyncTaskLoader<HashMap<String, Float>> {
             cursor = db.query("expanses", null, null, null, null, null, null);
         }
 
-        long wastedMoney = 0;
+        float wastedMoney = 0;
 
         //если список трат не пуст
         if (cursor.moveToFirst()) {

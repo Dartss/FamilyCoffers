@@ -44,13 +44,13 @@ public class PieDrawer extends View {
         rectf = new RectF(50*scale, 20*scale, 350*scale, 320*scale);
 
         int columnSeparator = 0;
-        int mStartAngle = 0;
+        float mStartAngle = 0;
         float mSpaces = 340*scale;
 
         for(Map.Entry<String, Float> entry: toDraw.entrySet()){
             int mColorId = Categories.getInstance().getAllCategoriesMap().get(entry.getKey()).getColor();
             int mColor = ContextCompat.getColor(getContext(), mColorId);
-            int mAngel = Math.round(entry.getValue());
+            float mAngel = entry.getValue();
 
             paintColors.setColor(mColor);
 
