@@ -8,6 +8,7 @@ import com.gorih.familycoffers.model.Category;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -30,7 +31,8 @@ public class FileWorker {
         return fileWorker;
     }
 
-    private FileWorker(Context context){
+    private FileWorker(Context context) {
+
         this.context = context;
     }
 
@@ -78,5 +80,10 @@ public class FileWorker {
             categories.add(spent);
         }
         return categories;
+    }
+
+    public void removeFile() {
+        File file = new File(context.getFilesDir(), filename);
+        file.delete();
     }
 }

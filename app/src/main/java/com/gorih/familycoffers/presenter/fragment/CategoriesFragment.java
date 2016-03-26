@@ -16,10 +16,11 @@ import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.CategoriesListAdapter;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.model.Category;
+import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 
 public class CategoriesFragment extends AbstractFragment {
     private static final int LAYOUT = R.layout.fragment_categories;
-    private DialogFragment dlgAddCategory;
+//    private DialogFragment dlgAddCategory;
 
     public static CategoriesFragment getInstance(Context context) {
         Bundle args = new Bundle();
@@ -44,7 +45,8 @@ public class CategoriesFragment extends AbstractFragment {
                 new CategoriesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Category item) {
-                Toast.makeText(getContext(), item.getName() + " Clicked", Toast.LENGTH_SHORT).show();
+                DialogFragment newExpanseFragment = dlgAddExpanse.newInstance(item.getName());
+                newExpanseFragment.show(getFragmentManager(), "add expanse");
             }
         };
         CategoriesListAdapter.init(onItemClickListener);
@@ -57,15 +59,15 @@ public class CategoriesFragment extends AbstractFragment {
     }
 
     private void initFAB(final View view) {
-        dlgAddCategory = new dlgAddCategory();
+//        dlgAddCategory = new dlgAddCategory();
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dlgAddCategory.show(getFragmentManager(), "new category");
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dlgAddCategory.show(getFragmentManager(), "new category");
+//            }
+//        });
     }
 
 }

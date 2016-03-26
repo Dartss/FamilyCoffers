@@ -1,6 +1,5 @@
 package com.gorih.familycoffers;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -9,20 +8,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
-import com.gorih.familycoffers.controller.CategoriesListAdapter;
-import com.gorih.familycoffers.controller.FileWorker;
+import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
-import com.gorih.familycoffers.model.Category;
-import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
+import com.gorih.familycoffers.model.Expanse;
+import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
+import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
-public class MainActivity extends AppCompatActivity implements dlgAddCategory.OnNewCategoryAddedListener{
+public class MainActivity extends AppCompatActivity
+        implements dlgAddExpanse.OnNewExpanseAddedListener {
 
     private Toolbar toolbar;
     private static final int LAYOUT = R.layout.activity_main;
     private DrawerLayout drawerLayout;
     private ViewPager viewPager;
+    private DBWorker dbWorker = DBWorker.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements dlgAddCategory.On
         initToolbar();
         initNavigationView();
         initTabs();
-        FileWorker.init(this);
+//        DBWorker.getInstance(this).eraseDB();
     }
 
 
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements dlgAddCategory.On
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void initNavigationView() {
@@ -93,17 +94,18 @@ public class MainActivity extends AppCompatActivity implements dlgAddCategory.On
     }
 
     @Override
-    public void onNewCategoryAdded(String newCategoryName) {
-        CategoriesListAdapter.getInstance().
-                addCategory(new Category(newCategoryName, R.color.colorDefaultCategory));
+    public void onNewExpanseAdded(float newExpanseValue, long date, String category) {
+        Expanse newExpanse = new Expanse(newExpanseValue, date, category);
+
+        dbWorker.addToDB(newExpanse);
+        Log.d("dlgAddExpanse", "new expanse added: " + newExpanse.toString());
+
+        StatisticsFragment.statisticsFragment.refresh();
     }
 
     private void showTabHistory(){ viewPager.setCurrentItem(Constants.TAB_HISTORY); }
     private void showTabExpanses(){
         viewPager.setCurrentItem(Constants.TAB_EXPANSES_LIST);
     }
-    private void showTabStatistics(){
-        viewPager.setCurrentItem(Constants.TAB_STATISTICS);
-    }
-
+    private void showTabStatistics(){ viewPager.setCurrentItem(Constants.TAB_STATISTICS); }
 }

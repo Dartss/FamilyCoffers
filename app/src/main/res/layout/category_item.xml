@@ -19,21 +19,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/colorPrimary"/>
+                android:id="@+id/top_line_colored_by_category"
+                android:orientation="horizontal"/>
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/title"
-                android:textSize="8pt"
-                android:textColor="@color/colorBlack"
-                android:padding="8dp"/>
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/img_btn_category_item_icon"
+                    android:src="@drawable/ic_diamond"
+                    android:clickable="false"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:textSize="8pt"
+                    android:textColor="@color/colorBlack"
+                    android:padding="8dp"
+                    android:text="Default Category"
+                    android:layout_marginLeft="20dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

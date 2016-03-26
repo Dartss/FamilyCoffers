@@ -6,5 +6,13 @@
     <color name="mainBackground">#e2e2e2</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
-    <color name="colorDefaultCategory">#30ffcf</color>
+    <color name="colorFoodCategory">#30ff59</color>
+    <color name="colorSportsCategory">#30ffcf</color>
+    <color name="colorHomeCategory">#f9c152</color>
+    <color name="colorHealthCategory">#ff0f87</color>
+    <color name="colorLuxuryCategory">#3037ff</color>
+    <color name="colorShitCategory">#805204</color>
+    <color name="colorCarCategory">#7b7771</color>
+
+
 </resources>

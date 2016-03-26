@@ -12,9 +12,7 @@ public class Expanse {
         this.categoryName = categoryName;
     }
 
-    public float getValue() {
-        return value;
-    }
+    public float getValue() { return value; }
 
     public long getDate() {
         return date;
@@ -22,5 +20,11 @@ public class Expanse {
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+
+    @Override
+    public String toString() {
+        return this.categoryName + " " + this.value + " " + this.date;
     }
 }
