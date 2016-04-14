@@ -1,15 +1,17 @@
 package com.gorih.familycoffers.controller;
 
-import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.gorih.familycoffers.model.Categories;
+import com.gorih.familycoffers.model.Expanse;
 
-public class PieAsyncLoader extends AsyncTaskLoader<HashMap<String, Float>> {
+import java.util.ArrayList;
+
+public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
     DBWorker dbWorker;
     Long dateFrom;
 
@@ -20,11 +22,12 @@ public class PieAsyncLoader extends AsyncTaskLoader<HashMap<String, Float>> {
     }
 
     @Override
-    public HashMap<String, Float> loadInBackground() {
+    public ArrayList<Expanse> loadInBackground() {
         Cursor cursor;
         SQLiteDatabase db = dbWorker.getReadableDatabase();
-        HashMap<String, Float> cutedPie = new HashMap<>();
+        ArrayList<Expanse> allExpanses = new ArrayList<>();
 
+        Categories.getInstance().removeAllTotalValues();
 
         if (dateFrom != null ) {
             String selection = "date > ?";
@@ -33,44 +36,33 @@ public class PieAsyncLoader extends AsyncTaskLoader<HashMap<String, Float>> {
             cursor = db.query("expanses", null, selection, selectionArgs, null, null,
                     null);
         } else {
-            Log.d("---CSM--", "default cursor");
+            Log.d("---PAL--", "default cursor");
             cursor = db.query("expanses", null, null, null, null, null, null);
         }
 
-        float wastedMoney = 0;
-
-        //если список трат не пуст
         if (cursor.moveToFirst()) {
-
-            // определить номера столбцов по имени в выборке
             int nameColIndex= cursor.getColumnIndex("category");
             int valueColIndex = cursor.getColumnIndex("value");
+            int dateColIndex = cursor.getColumnIndex("date");
+
             do {
-                //определить общую сумму каждой траты
                 String expanseCategory = cursor.getString(nameColIndex);
                 Float expanseValue = cursor.getFloat(valueColIndex);
+                Long expanseDate = cursor.getLong(dateColIndex);
 
-                wastedMoney += expanseValue;
-                if(cutedPie.containsKey(expanseCategory)){
-                    cutedPie.put(expanseCategory, cutedPie.get(expanseCategory) + expanseValue);
-                }else{
-                    cutedPie.put(expanseCategory, expanseValue);
-                }
+                allExpanses.add(new Expanse(expanseValue, expanseDate, expanseCategory));
+                Categories.getInstance().addValueToCategory(expanseCategory, expanseValue);
 
             } while (cursor.moveToNext());
-
-            for (Map.Entry<String, Float> entry : cutedPie.entrySet() ) {
-                cutedPie.put(entry.getKey(), (entry.getValue() * 360) / wastedMoney);
-            }
 
         } else {
             Log.d("---Log---", "size is zerro");
         }
 
-        Log.d("---Log---", "\t" + cutedPie);
+        Log.d("---Log---", "\t" + allExpanses);
         cursor.close();
         db.close();
 
-        return cutedPie;
+        return allExpanses;
     }
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,12 +14,13 @@ import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.categoriesViewHolder> {
 
-    private List<Category> categories = Categories.getInstance().getAllCategoriesList();
+    private ArrayList<Category> categories = Categories.getInstance().getAllCategoriesList();
     private OnItemClickListener listener ;
 
     private static CategoriesListAdapter adapter;
@@ -63,14 +65,14 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
     public static class categoriesViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView title;
-        ImageButton categoryIcon;
+        ImageView categoryIcon;
         LinearLayout coloredLine;
 
         public categoriesViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             title = (TextView) itemView.findViewById(R.id.title);
-            categoryIcon = (ImageButton) itemView.findViewById(R.id.img_btn_category_item_icon);
+            categoryIcon = (ImageView) itemView.findViewById(R.id.img_btn_category_item_icon);
             coloredLine = (LinearLayout) itemView.findViewById(R.id.top_line_colored_by_category);
         }
 

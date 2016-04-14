@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8BC34A</color>
-    <color name="colorPrimaryDark">#33691E</color>
-    <color name="colorAccent">#76FF03</color>
-    <color name="mainBackground">#e2e2e2</color>
+    <color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#aa00ff</color>
+    <color name="colorLightAccent">#ea5c5268</color>
+    <color name="mainBackground">#616161</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
-    <color name="colorFoodCategory">#30ff59</color>
-    <color name="colorSportsCategory">#30ffcf</color>
-    <color name="colorHomeCategory">#f9c152</color>
-    <color name="colorHealthCategory">#ff0f87</color>
-    <color name="colorLuxuryCategory">#3037ff</color>
-    <color name="colorShitCategory">#805204</color>
-    <color name="colorCarCategory">#7b7771</color>
+    <color name="colorFoodCategory">#00e676</color>
+    <color name="colorSportsCategory">#1de9b6</color>
+    <color name="colorHomeCategory">#ffb74d</color>
+    <color name="colorHealthCategory">#e91e63</color>
+    <color name="colorLuxuryCategory">#304ffe</color>
+    <color name="colorShitCategory">#827717</color>
+    <color name="colorCarCategory">#a1887f</color>
 
 
 </resources>

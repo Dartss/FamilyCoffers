@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class CategoriesFragment extends AbstractFragment {
         view = inflater.inflate(LAYOUT, container, false);
 
         RecyclerView listWithCategoriesRv = (RecyclerView) view.findViewById(R.id.recycler_view);
-        listWithCategoriesRv.setLayoutManager(new LinearLayoutManager(context));
+        listWithCategoriesRv.setLayoutManager(new GridLayoutManager(context, 3));
 
         CategoriesListAdapter.OnItemClickListener onItemClickListener =
                 new CategoriesListAdapter.OnItemClickListener() {

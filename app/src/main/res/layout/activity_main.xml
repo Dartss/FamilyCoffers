@@ -22,16 +22,17 @@
                     android:id="@+id/toolbar"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_width="match_parent"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:tabIndicatorHeight="6dp"
-                    appo:tabIndicatorColor="@android:color/white"
-                    app:tabSelectedTextColor="@android:color/white"
-                    app:tabTextColor="@android:color/holo_red_light"/>
+                    app:tabSelectedTextColor="@color/colorAccent"
+                    app:tabTextColor="@color/colorWhite"
+                    />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -39,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/view_pager"
-            android:background="@drawable/viewpager_back_img3"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>

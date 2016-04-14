@@ -4,23 +4,32 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
+import com.gorih.familycoffers.controller.StatisticsListAdapter;
+import com.gorih.familycoffers.model.Categories;
+import com.gorih.familycoffers.model.Expanse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StatisticsFragment extends AbstractFragment implements LoaderCallbacks
-        <HashMap<String, Float>> {
+        <ArrayList<Expanse>> {
     private static final int LAYOUT = R.layout.fragment_statistics;
     private static final int DEFAULT_ID = 1;
-    RelativeLayout relativeLayout;
     public static StatisticsFragment statisticsFragment = null;
+    private ScrollView frameLayoutPie;
+
 
     public static StatisticsFragment getInstance(Context context) {
         Bundle args = new Bundle();
@@ -43,34 +52,60 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.view = inflater.inflate(LAYOUT, null, false);
-        relativeLayout = (RelativeLayout) view.findViewById(R.id.rl_fragment_statistics);
+
+        frameLayoutPie = (ScrollView) view.findViewById(R.id.ll_statistics_root);
+
         getLoaderManager().initLoader(DEFAULT_ID, null, this);
         getLoaderManager().getLoader(DEFAULT_ID).forceLoad();
+
         return view;
     }
 
     @Override
-    public android.support.v4.content.Loader<HashMap<String, Float>> onCreateLoader(int id, Bundle args) {
+    public android.support.v4.content.Loader<ArrayList<Expanse>> onCreateLoader(int id, Bundle args) {
         return new PieAsyncLoader(this.context, null);
     }
 
     @Override
-    public void onLoadFinished(android.support.v4.content.Loader<HashMap<String, Float>> loader,
-                               HashMap<String, Float> result) {
+    public void onLoadFinished(android.support.v4.content.Loader<ArrayList<Expanse>> loader,
+                               ArrayList<Expanse> allExpenses) {
 
-        View pieView;
+        frameLayoutPie.removeAllViews();
 
-        if (result.size() != 0) {
-            pieView = new PieDrawer(this.context, result);
-        } else {
+        if(allExpenses.size() == 0) {
             LayoutInflater ltInflater = getLayoutInflater(null);
-            pieView = ltInflater.inflate(R.layout.empty_statistics_view, null, false);
+            frameLayoutPie.addView(ltInflater.inflate(R.layout.empty_statistics_view, null, false));
+            return;
         }
 
-        relativeLayout.removeAllViews();
-        relativeLayout.addView(pieView);
+        HashMap<String, Float> result = calculatePercentForEachExpanse(allExpenses);
+
+        frameLayoutPie.addView(new PieDrawer(this.context, result));
+    }
+
+    private HashMap<String, Float> calculatePercentForEachExpanse(ArrayList<Expanse> allExpenses) {
+        HashMap<String, Float> totalValues = new HashMap<>();
+        float sumOfAllExpanses = 0;
+
+        for(Expanse eachExpense : allExpenses ) {
+            String curExpCategory = eachExpense.getCategoryName();
+            Float curExpValue = eachExpense.getValue();
+            sumOfAllExpanses += curExpValue;
+
+            if (totalValues.containsKey(curExpCategory)) {
+                totalValues.put(curExpCategory, totalValues.get(curExpCategory) + curExpValue);
+            } else {
+                totalValues.put(eachExpense.getCategoryName(), curExpValue);
+            }
+        }
+
+        for (Map.Entry<String, Float> entry : totalValues.entrySet() ) {
+            totalValues.put(entry.getKey(), (entry.getValue() * 360) / sumOfAllExpanses);
+        }
+
+        return totalValues;
     }
 
     @Override
-    public void onLoaderReset(android.support.v4.content.Loader<HashMap<String, Float>> loader) { }
+    public void onLoaderReset(android.support.v4.content.Loader<ArrayList<Expanse>> loader) { }
 }

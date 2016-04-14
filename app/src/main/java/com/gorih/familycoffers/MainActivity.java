@@ -1,5 +1,6 @@
 package com.gorih.familycoffers;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,6 +17,14 @@ import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
 import com.gorih.familycoffers.model.Expanse;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.security.interfaces.ECKey;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements dlgAddExpanse.OnNewExpanseAddedListener {

@@ -2,6 +2,7 @@ package com.gorih.familycoffers.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -29,16 +30,13 @@ public class DBWorker extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("create table expanses ("
-                + "family_unique_id integer"
-                + "family_member text," + "category text,"
-                + "value float," + "date long" + ");");
+                + "_id" + " integer primary key autoincrement, " + "category text, "
+                + "value float, " + "date long" + ");");
 
         Log.d(LOG, "DB Was Created");
     }
 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
     public void addToDB(Expanse expanse){
         ContentValues cv = new ContentValues();

@@ -14,5 +14,6 @@
     <string name="dlg_new_category_tittle">New category</string>
     <string name="dlg_new_expanse_tittle">Add expanse</string>
     <string name="empty_statistics_text">There are no any expanses yet</string>
+    <string name="str_for_testing">Test String</string>
 
 </resources>

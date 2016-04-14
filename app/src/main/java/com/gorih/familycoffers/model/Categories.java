@@ -2,12 +2,15 @@ package com.gorih.familycoffers.model;
 
 import com.gorih.familycoffers.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class Categories {
-    private List<Category> allCategories = new ArrayList<>();
+    private HashMap<String, Category> allCategories = new HashMap<>();
     private static Categories categoriesInstance = null;
 
     public static Categories getInstance() {
@@ -22,26 +25,29 @@ public class Categories {
     }
 
     private void init() {
-        allCategories.add(new Category("Food", R.color.colorFoodCategory, R.mipmap.ic_food_variant));
-        allCategories.add(new Category("Car", R.color.colorCarCategory, R.mipmap.ic_car));
-        allCategories.add(new Category("Sports", R.color.colorSportsCategory, R.mipmap.ic_bike));
-        allCategories.add(new Category("Health", R.color.colorHealthCategory, R.mipmap.ic_heart_pulse));
-        allCategories.add(new Category("Luxury", R.color.colorLuxuryCategory, R.mipmap.ic_diamond));
-        allCategories.add(new Category("Home", R.color.colorHomeCategory, R.mipmap.ic_home_variant));
-        allCategories.add(new Category("Shit", R.color.colorShitCategory, R.mipmap.ic_emoticon_poop));
+        allCategories.put("Food", new Category("Food", R.color.colorFoodCategory, R.mipmap.ic_food_variant));
+        allCategories.put("Car", new Category("Car", R.color.colorCarCategory, R.mipmap.ic_car));
+        allCategories.put("Sports", new Category("Sports", R.color.colorSportsCategory, R.mipmap.ic_bike));
+        allCategories.put("Health", new Category("Health", R.color.colorHealthCategory, R.mipmap.ic_heart_pulse));
+        allCategories.put("Luxury", new Category("Luxury", R.color.colorLuxuryCategory, R.mipmap.ic_diamond));
+        allCategories.put("Home", new Category("Home", R.color.colorHomeCategory, R.mipmap.ic_home_variant));
+        allCategories.put("Shit", new Category("Shit", R.color.colorShitCategory, R.mipmap.ic_emoticon_poop));
     }
 
-    public HashMap<String, Category> getAllCategoriesMap() {
-        HashMap<String, Category> categoriesMap = new HashMap<>();
+    public HashMap<String, Category> getAllCategoriesMap() { return allCategories; }
 
-        for(Category category : allCategories) {
-            categoriesMap.put(category.getName(), category);
+    public ArrayList<Category> getAllCategoriesList() {
+        Collection<Category> collection = allCategories.values();
+        return new ArrayList<>(collection);
+    }
+
+    public void addValueToCategory(String categoryName, float valueToAdd) {
+        allCategories.get(categoryName).addValueToSum(valueToAdd);
+    }
+
+    public void removeAllTotalValues() {
+        for (Category cat : allCategories.values()) {
+            cat.eraseSum();
         }
-
-        return categoriesMap;
-    }
-
-    public List<Category> getAllCategoriesList() {
-        return allCategories;
     }
 }
