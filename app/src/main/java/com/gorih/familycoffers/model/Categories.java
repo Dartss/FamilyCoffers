@@ -1,13 +1,12 @@
 package com.gorih.familycoffers.model;
 
+import android.util.Log;
+
 import com.gorih.familycoffers.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 public class Categories {
     private HashMap<String, Category> allCategories = new HashMap<>();
@@ -42,7 +41,13 @@ public class Categories {
     }
 
     public void addValueToCategory(String categoryName, float valueToAdd) {
-        allCategories.get(categoryName).addValueToSum(valueToAdd);
+        Category category = allCategories.get(categoryName);
+
+        if (category != null){
+            category.addValueToSum(valueToAdd);
+        } else {
+            Log.d("Categories", "Wrong category name");
+        }
     }
 
     public void removeAllTotalValues() {

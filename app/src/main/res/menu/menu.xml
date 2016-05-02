@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/serch"
+        android:id="@+id/action_bar_options"
         android:title="@string/search_tittle"
         android:orderInCategory="1"
         android:icon="@mipmap/ic_square_inc_cash"

@@ -15,5 +15,9 @@
     <string name="dlg_new_expanse_tittle">Add expanse</string>
     <string name="empty_statistics_text">There are no any expanses yet</string>
     <string name="str_for_testing">Test String</string>
+    <string name="tv1_first_launch">Seems like it\'s first launch</string>
+    <string name="tv_select_mode">Which mode would you like</string>
+    <string name="btn_launch_mode_offline">Offline</string>
+    <string name="btn_select_mode_online">Online</string>
 
 </resources>

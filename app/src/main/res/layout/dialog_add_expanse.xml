@@ -5,10 +5,20 @@
     android:theme="@style/AppDefault">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_dlg_expanse_title"
+        android:text="@string/dlg_new_expanse_tittle"
+        android:layout_gravity="right"
+        android:textSize="15sp"
+        android:layout_margin="5dp"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_dlg_expanse_category_name"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textSize="40sp" />
 
     <EditText
         android:layout_width="wrap_content"

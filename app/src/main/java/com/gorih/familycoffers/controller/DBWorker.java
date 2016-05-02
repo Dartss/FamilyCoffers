@@ -2,7 +2,6 @@ package com.gorih.familycoffers.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -41,13 +40,13 @@ public class DBWorker extends SQLiteOpenHelper {
     public void addToDB(Expanse expanse){
         ContentValues cv = new ContentValues();
         db = getWritableDatabase();
-        cv.put("category", expanse.getCategoryName());
+        cv.put("category", expanse.getCategory());
         cv.put("value", expanse.getValue());
         cv.put("date", expanse.getDate());
         long rowID = db.insert("expanses", null, cv);
 
         Log.d(LOG, "row inserted, ID = " + rowID);
-        Log.d(LOG, "Named " + expanse.getCategoryName());
+        Log.d(LOG, "Named " + expanse.getCategory());
         Log.d(LOG, "Sum " + expanse.getValue());
         Log.d(LOG, "Date " + expanse.getDate());
 

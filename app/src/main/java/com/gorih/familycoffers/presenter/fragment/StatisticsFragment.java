@@ -4,19 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
-import com.gorih.familycoffers.controller.StatisticsListAdapter;
-import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Expanse;
 
 import java.util.ArrayList;
@@ -88,14 +83,14 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         float sumOfAllExpanses = 0;
 
         for(Expanse eachExpense : allExpenses ) {
-            String curExpCategory = eachExpense.getCategoryName();
+            String curExpCategory = eachExpense.getCategory();
             Float curExpValue = eachExpense.getValue();
             sumOfAllExpanses += curExpValue;
 
             if (totalValues.containsKey(curExpCategory)) {
                 totalValues.put(curExpCategory, totalValues.get(curExpCategory) + curExpValue);
             } else {
-                totalValues.put(eachExpense.getCategoryName(), curExpValue);
+                totalValues.put(eachExpense.getCategory(), curExpValue);
             }
         }
 

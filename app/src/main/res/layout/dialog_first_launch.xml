@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv1_first_launch"
+        android:id="@+id/tv1_first_launch"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_select_mode"
+        android:layout_below="@+id/tv1_first_launch"
+        android:id="@+id/tv2_first_launch"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_first_launch_offline"
+        android:text="@string/btn_launch_mode_offline"
+        android:layout_below="@+id/tv2_first_launch"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_first_launch_online"
+        android:text="@string/btn_select_mode_online"
+        android:layout_toEndOf="@+id/btn_first_launch_offline"
+        android:layout_toRightOf="@+id/btn_first_launch_offline"
+        android:layout_below="@+id/tv2_first_launch"
+        android:enabled="false" />
+
+</RelativeLayout>

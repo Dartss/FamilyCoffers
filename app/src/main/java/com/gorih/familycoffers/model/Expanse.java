@@ -5,12 +5,12 @@ public class Expanse {
     private long id;
     private float value;
     private long date;
-    private String categoryName;
+    private String category;
 
     public Expanse(float value, long date, String categoryName) {
         this.value = value;
         this.date = date;
-        this.categoryName = categoryName;
+        this.category = categoryName;
     }
 
     public Expanse() {
@@ -28,8 +28,8 @@ public class Expanse {
         this.date = date;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public long getId() {
@@ -43,13 +43,13 @@ public class Expanse {
         return date;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getCategory() {
+        return category;
     }
 
 
     @Override
     public String toString() {
-        return this.categoryName + " " + this.value + " " + this.date;
+        return this.category + " " + this.value + " " + this.date;
     }
 }

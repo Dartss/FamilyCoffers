@@ -46,7 +46,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         listView = (ListView) view.findViewById(R.id.lv_history_view_list);
 
         String[] from = new String[] { "category", "value" , "date"};
-        int[] to = new int[] { R.id.iv_history_item_icon, R.id.tv_history_item_value, R.id.tv_history_item_date};
+        int[] to = new int[] { R.id.iv_history_item_category, R.id.tv_history_item_value, R.id.tv_history_item_date};
 
         adapter = new SimpleCursorAdapter(this.context, R.layout.history_list_item, null, from, to, 0);
 

@@ -10,6 +10,7 @@ public class Category {
         this.name = name;
         this.color = color;
         this.icon = icon;
+        sumOfValues = 0;
     }
 
     public String getName() {
