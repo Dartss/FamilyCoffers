@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/radio_group_history"
+    android:baselineAligned="false">
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rb_history_today"
+        android:id="@+id/rb_history_today"
+        android:layout_weight="1"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rb_history_month"
+        android:id="@+id/rb_history_month"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rb_history_alltime"
+        android:id="@+id/rb_history_alltime"
+        android:layout_weight="1"
+        android:checked="true"/>
+
+</RadioGroup>

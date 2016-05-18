@@ -2,12 +2,17 @@ package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 import java.lang.reflect.Field;
 
 public class AbstractFragment extends Fragment {
     protected View view;
+    private static final Field sChildFragmentManagerField;
+    private static final String LOGTAG = "FragmentLOG";
+
+
     protected Context context;
 
     private String tittle;
@@ -25,19 +30,28 @@ public class AbstractFragment extends Fragment {
         return tittle;
     }
 
+    static {
+        Field f = null;
+        try {
+            f = Fragment.class.getDeclaredField("mChildFragmentManager");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            Log.e(LOGTAG, "Error getting mChildFragmentManager field", e);
+        }
+        sChildFragmentManagerField = f;
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
 
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (sChildFragmentManagerField != null) {
+            try {
+                sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                Log.e(LOGTAG, "Error setting mChildFragmentManager field", e);
+            }
         }
     }
+
 }

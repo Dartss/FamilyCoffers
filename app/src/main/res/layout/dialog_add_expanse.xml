@@ -26,13 +26,17 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/et_dlg_expanse_value"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        >
+        <requestFocus/>
+    </EditText>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dlg_new_category_btn_ok"
         android:id="@+id/button_dlg_expanse_confirm"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>

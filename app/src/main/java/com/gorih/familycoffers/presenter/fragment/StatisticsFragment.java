@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
+import com.gorih.familycoffers.MainActivity;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
@@ -46,6 +49,7 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("--StatisticsFR--", "OnCreateView");
         this.view = inflater.inflate(LAYOUT, null, false);
 
         frameLayoutPie = (ScrollView) view.findViewById(R.id.ll_statistics_root);

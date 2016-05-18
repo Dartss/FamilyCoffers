@@ -2,6 +2,8 @@ package com.gorih.familycoffers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,7 +32,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-public class MainActivity extends AppCompatActivity
+import java.util.Calendar;
+
+public class MainActivity extends FragmentActivity
         implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener {
     private static final String TAG = "AAAAA";
 
@@ -37,6 +42,11 @@ public class MainActivity extends AppCompatActivity
     private static final int LAYOUT = R.layout.activity_main;
     private DrawerLayout drawerLayout;
     private ViewPager viewPager;
+
+    private boolean flag = true;
+
+
+
     private DBWorker dbWorker = DBWorker.getInstance(this);
     SharedPreferences sharedPreferences;
 
@@ -46,13 +56,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
         Log.d(TAG, "onCreate");
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         initToolbar();
         initNavigationView();
         initTabs();
         initFamilyId();
 //        new ExpanseGetter().execute();
-//         DBWorker.getInstance(this).eraseDB();
+//        DBWorker.getInstance(this).eraseDB();
     }
 
     private void initFamilyId() {
@@ -117,6 +128,8 @@ public class MainActivity extends AppCompatActivity
 
         toolbar.setTitle(R.string.app_name);
 
+        toolbar.setTitleTextColor(Color.WHITE);
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -135,11 +148,15 @@ public class MainActivity extends AppCompatActivity
         } else {
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
         }
-
         dbWorker.addToDB(newExpanse);
         Log.d("dlgAddExpanse", "new expanse added: " + newExpanse.toString());
 
         StatisticsFragment.statisticsFragment.refresh();
+
+//        if(flag) {
+//            flag = false;
+//            fillDBWithDefaultData();
+//        }
     }
 
     public boolean isOnline() {
@@ -220,4 +237,38 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        }
 //    }
+
+    public void fillDBWithDefaultData() {
+        for(int i = 0; i < 4; i++) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH, i);
+
+            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), "Food");
+            onNewExpanseAdded(expanse);
+        }
+        for(int i = 0; i < 4; i++) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH, i);
+
+            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), "Car");
+            onNewExpanseAdded(expanse);
+        }
+        for(int i = 0; i < 4; i++) {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH, i);
+
+            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), "Health");
+            onNewExpanseAdded(expanse);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Sorry...no better ideas
+        System.exit(0);
+    }
 }

@@ -2,46 +2,51 @@ package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.gorih.familycoffers.R;
-import com.gorih.familycoffers.controller.DBWorker;
+import com.gorih.familycoffers.controller.HistoryCursorLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
         LoaderCallbacks<Cursor>{
     private static final int LAYOUT = R.layout.fragment_history;
+    private static HistoryFragment historyFragment = null;
     ListView listView;
     SimpleCursorAdapter adapter;
+    RadioGroup filterRG;
+    Long timeFilterValue = 0L;
 
     public static HistoryFragment getInstance(Context context) {
         Bundle args = new Bundle();
 
-        HistoryFragment fragment = new HistoryFragment();
-        fragment.setArguments(args);
-        fragment.setContext(context);
-        fragment.setTittle(context.getString(R.string.tab_item_history));
+        historyFragment = new HistoryFragment();
+        historyFragment.setArguments(args);
+        historyFragment.setContext(context);
+        historyFragment.setTittle(context.getString(R.string.tab_item_history));
 
-        return fragment;
+        return historyFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("--HistoryFR--", "OnCreateView");
         view = inflater.inflate(LAYOUT, container, false);
         listView = (ListView) view.findViewById(R.id.lv_history_view_list);
 
@@ -59,14 +64,14 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
                     String dateText = sdf.format(date);
                     TextView textView = (TextView) aView;
-                    textView.setText("Date: " + dateText);
+                    textView.setText(dateText);
                     return true;
                 }
 
                 if (aColumnIndex == 2) {
                     String value = String.format("%.2f", aCursor.getFloat(2));
                     TextView textView = (TextView) aView;
-                    textView.setText("Value: " + value);
+                    textView.setText(value);
                     return true;
                 }
 
@@ -78,13 +83,48 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
         getLoaderManager().initLoader(0, null, this);
         getLoaderManager().getLoader(0).forceLoad();
+
+        filterRG = (RadioGroup) view.findViewById(R.id.radio_group_history);
+        filterRG.setOnCheckedChangeListener(new FilterListener());
+
         return view;
     }
 
+    private class FilterListener implements RadioGroup.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            Calendar c = Calendar.getInstance();
+            switch (filterRG.getCheckedRadioButtonId()) {
+                case R.id.rb_history_today:
+                    Log.d("--HistoryFrag--", "Today");
+                    c.set(Calendar.HOUR_OF_DAY, 0);
+                    c.set(Calendar.MINUTE, 0);
+                    c.set(Calendar.SECOND, 0);
+                    c.set(Calendar.MILLISECOND, 0);
+                    timeFilterValue = c.getTimeInMillis();
+                    break;
+                case R.id.rb_history_month:
+                    Log.d("--HistoryFrag--", "Month");
+                    c.set(Calendar.DAY_OF_MONTH, 1);
+                    c.set(Calendar.HOUR_OF_DAY, 0);
+                    c.set(Calendar.MINUTE, 0);
+                    c.set(Calendar.SECOND, 0);
+                    c.set(Calendar.MILLISECOND, 0);
+                    timeFilterValue = c.getTimeInMillis();
+                    break;
+                case R.id.rb_history_alltime:
+                    Log.d("--HistoryFrag--", "All Time");
+                    timeFilterValue = 0L;
+                    break;
+            }
+            getLoaderManager().restartLoader(0, null, historyFragment);
+//            getLoaderManager().getLoader(0).forceLoad();
+        }
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new MyCursorLoader(this.context);
+        return new HistoryCursorLoader(this.context, timeFilterValue);
     }
 
     @Override
@@ -93,20 +133,6 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) { }
 
-    }
-
-    static class MyCursorLoader extends CursorLoader {
-
-        public MyCursorLoader(Context context) {
-            super(context);
-        }
-
-        @Override
-        public Cursor loadInBackground() {
-            return DBWorker.getInstance(getContext()).getReadableDatabase().query("expanses",null, null, null, null, null, null);
-        }
-
-    }
 }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     >
 
     <TextView
@@ -11,21 +10,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_for_testing"
-        >
+        android:textSize="18sp"
+        android:paddingLeft="8dp">
     </TextView>
+
     <TextView
         android:id="@+id/iv_history_item_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_for_testing"
-        >
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
     </TextView>
+
     <TextView
         android:id="@+id/tv_history_item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_for_testing"
-        >
+        android:textSize="18sp"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="8dp">
     </TextView>
 
-</LinearLayout>
+</RelativeLayout>

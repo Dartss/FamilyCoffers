@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,6 +22,10 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
     private EditText newExpanseValue;
     private String categoryName;
     private final float MAX_VALUE = 1000000;
+
+    private static final Field sChildFragmentManagerField;
+    private static final String LOGTAG = "DLG_add_expanse";
+
 
     OnNewExpanseAddedListener mListener;
 
@@ -90,24 +96,32 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         }
     }
 
+
+    private boolean isValid(float value) {
+        return !(value <= 0 || value > MAX_VALUE);
+    }
+
+    static {
+        Field f = null;
+        try {
+            f = Fragment.class.getDeclaredField("mChildFragmentManager");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            Log.e(LOGTAG, "Error getting mChildFragmentManager field", e);
+        }
+        sChildFragmentManagerField = f;
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
 
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (sChildFragmentManagerField != null) {
+            try {
+                sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                Log.e(LOGTAG, "Error setting mChildFragmentManager field", e);
+            }
         }
-    }
-
-
-    private boolean isValid(float value) {
-        return !(value <= 0 || value > MAX_VALUE);
     }
 }

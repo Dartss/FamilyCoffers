@@ -19,5 +19,11 @@
     <string name="tv_select_mode">Which mode would you like</string>
     <string name="btn_launch_mode_offline">Offline</string>
     <string name="btn_select_mode_online">Online</string>
+    <string name="history_table_header_date">DATE</string>
+    <string name="history_table_header_category">CATEGORY</string>
+    <string name="history_table_header_value">VALUE</string>
+    <string name="rb_history_today">Today</string>
+    <string name="rb_history_month">Month</string>
+    <string name="rb_history_alltime">All time</string>
 
 </resources>

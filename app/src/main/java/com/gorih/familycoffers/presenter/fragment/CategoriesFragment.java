@@ -46,6 +46,28 @@ public class CategoriesFragment extends AbstractFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("--CategoriesFragment---", "onActivityCreated");
+//        CategoriesListAdapter.OnItemClickListener onItemClickListener =
+//                new CategoriesListAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(Category item) {
+//                        DialogFragment newExpanseFragment = dlgAddExpanse.newInstance(item.getName());
+//                        android.support.v4.app.FragmentManager manager = getChildFragmentManager();
+//
+//                        newExpanseFragment.show(manager, "add expanse");
+//                    }
+//                };
+//        CategoriesListAdapter.init(onItemClickListener);
+//
+//        listWithCategoriesRv.setAdapter(CategoriesListAdapter.getInstance());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initListener();
+    }
+
+    private void initListener() {
         CategoriesListAdapter.OnItemClickListener onItemClickListener =
                 new CategoriesListAdapter.OnItemClickListener() {
                     @Override
@@ -68,6 +90,7 @@ public class CategoriesFragment extends AbstractFragment {
 
         listWithCategoriesRv = (RecyclerView) view.findViewById(R.id.recycler_view);
         listWithCategoriesRv.setLayoutManager(new GridLayoutManager(context, 3));
+
 
 //        initFAB(view);
 
