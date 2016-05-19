@@ -29,7 +29,8 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
 
         Categories.getInstance().removeAllTotalValues();
 
-        if (dateFrom != null ) {
+        if (dateFrom > 0) {
+            Log.d("---PAL--", "filtered cursor");
             String selection = "date > ?";
             String[] selectionArgs = new String[] { dateFrom.toString() };
 

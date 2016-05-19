@@ -16,8 +16,11 @@ import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.gorih.familycoffers.Constants;
 import com.gorih.familycoffers.R;
+import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.HistoryCursorLoader;
+import com.gorih.familycoffers.model.Category;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,7 +29,7 @@ import java.util.Date;
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
         LoaderCallbacks<Cursor>{
     private static final int LAYOUT = R.layout.fragment_history;
-    private static HistoryFragment historyFragment = null;
+    public static HistoryFragment historyFragment = null;
     ListView listView;
     SimpleCursorAdapter adapter;
     RadioGroup filterRG;
@@ -85,41 +88,15 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         getLoaderManager().getLoader(0).forceLoad();
 
         filterRG = (RadioGroup) view.findViewById(R.id.radio_group_history);
-        filterRG.setOnCheckedChangeListener(new FilterListener());
+        filterRG.setOnCheckedChangeListener(new FilterListener(Constants.HISTORY_FR_ID));
 
         return view;
     }
 
-    private class FilterListener implements RadioGroup.OnCheckedChangeListener {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            Calendar c = Calendar.getInstance();
-            switch (filterRG.getCheckedRadioButtonId()) {
-                case R.id.rb_history_today:
-                    Log.d("--HistoryFrag--", "Today");
-                    c.set(Calendar.HOUR_OF_DAY, 0);
-                    c.set(Calendar.MINUTE, 0);
-                    c.set(Calendar.SECOND, 0);
-                    c.set(Calendar.MILLISECOND, 0);
-                    timeFilterValue = c.getTimeInMillis();
-                    break;
-                case R.id.rb_history_month:
-                    Log.d("--HistoryFrag--", "Month");
-                    c.set(Calendar.DAY_OF_MONTH, 1);
-                    c.set(Calendar.HOUR_OF_DAY, 0);
-                    c.set(Calendar.MINUTE, 0);
-                    c.set(Calendar.SECOND, 0);
-                    c.set(Calendar.MILLISECOND, 0);
-                    timeFilterValue = c.getTimeInMillis();
-                    break;
-                case R.id.rb_history_alltime:
-                    Log.d("--HistoryFrag--", "All Time");
-                    timeFilterValue = 0L;
-                    break;
-            }
-            getLoaderManager().restartLoader(0, null, historyFragment);
-//            getLoaderManager().getLoader(0).forceLoad();
-        }
+
+    public void onFilterSelected(long timeFilterValue){
+        this.timeFilterValue = timeFilterValue;
+        getLoaderManager().restartLoader(0, null, historyFragment);
     }
 
     @Override
