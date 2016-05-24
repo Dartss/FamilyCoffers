@@ -15,9 +15,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gorih.familycoffers.Constants;
 import com.gorih.familycoffers.R;
+import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.HistoryCursorLoader;
 import com.gorih.familycoffers.model.Category;
@@ -25,9 +27,11 @@ import com.gorih.familycoffers.model.Category;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
-        LoaderCallbacks<Cursor>{
+        LoaderCallbacks<Cursor>, Observer{
     private static final int LAYOUT = R.layout.fragment_history;
     public static HistoryFragment historyFragment = null;
     ListView listView;
@@ -49,9 +53,10 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("--HistoryFR--", "OnCreateView");
         view = inflater.inflate(LAYOUT, container, false);
         listView = (ListView) view.findViewById(R.id.lv_history_view_list);
+
+        DBWorker.getInstance(this.context).addObserverTodb(this);
 
         String[] from = new String[] { "category", "value" , "date"};
         int[] to = new int[] { R.id.iv_history_item_category, R.id.tv_history_item_value, R.id.tv_history_item_date};
@@ -106,10 +111,18 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.swapCursor(data);
+        if (data != null) {
+            adapter.swapCursor(data);
+        } else {
+            Toast.makeText(this.context, "Cursor is Null", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) { }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        getLoaderManager().restartLoader(0, null, historyFragment);
+    }
 }

@@ -7,17 +7,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.gorih.familycoffers.model.Expanse;
+import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 public class DBWorker extends SQLiteOpenHelper {
     SQLiteDatabase db;
     private final String LOG = "DBWorker";
     private static DBWorker dbWorker = null;
+    private static DbNotifier dbNotifier;
 
     public static DBWorker getInstance(Context context) {
         if (dbWorker == null) {
             dbWorker = new DBWorker(context);
+            dbNotifier = new DbNotifier();
         }
         return dbWorker;
     }
@@ -51,6 +56,8 @@ public class DBWorker extends SQLiteOpenHelper {
         Log.d(LOG, "Date " + expanse.getDate());
 
         db.close();
+
+        dbNotifier.sendNotifications();
     }
 
     public void delFromDB(ArrayList<String> namesAR){
@@ -60,12 +67,47 @@ public class DBWorker extends SQLiteOpenHelper {
             Log.d(LOG, "DELETED FROM DB " + delCount);
         }
         db.close();
+
+        dbNotifier.sendNotifications();
     }
 
     public void eraseDB(){
         db = getWritableDatabase();
         db.delete("expanses", null, null);
         db.close();
+
+        dbNotifier.sendNotifications();
     }
 
+    public void addObserverTodb(Observer observer) {
+        dbNotifier.addObserver(observer);
+    }
+
+    public void addExpansesList(ArrayList<Expanse> expanses){
+        ContentValues cv = new ContentValues();
+        db = getWritableDatabase();
+
+        for(Expanse expanse : expanses) {
+            cv.put("category", expanse.getCategory());
+            cv.put("value", expanse.getValue());
+            cv.put("date", expanse.getDate());
+            long rowID = db.insert("expanses", null, cv);
+        }
+
+        db.close();
+
+        dbNotifier.sendNotifications();
+    }
+
+    private static class DbNotifier extends Observable {
+        @Override
+        protected void setChanged() {
+            super.setChanged();
+        }
+
+        protected void sendNotifications() {
+            setChanged();
+            notifyObservers();
+        }
+    }
 }

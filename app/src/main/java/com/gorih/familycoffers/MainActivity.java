@@ -1,6 +1,8 @@
 package com.gorih.familycoffers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -11,10 +13,8 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,11 +32,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends AppCompatActivity
         implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener {
-    private static final String TAG = "AAAAA";
+    private static final String TAG = "--MainActivity--";
 
     private Toolbar toolbar;
     private static final int LAYOUT = R.layout.activity_main;
@@ -94,28 +95,23 @@ public class MainActivity extends FragmentActivity
     }
 
     private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.view_navigation_open, R.string.view_navigation_close);
-
-        drawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                drawerLayout.closeDrawers();
                 switch (item.getItemId()) {
-                    case R.id.action_tab_one_item:
-                        showTabExpanses();
+                    case R.id.menu_join_family:
+//                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
+                        fillDBWithDefaultData();
                         break;
-                    case R.id.action_tab_two_item:
-                        showTabStatistics();
+                    case R.id.menu_item_create_new_family:
+                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.action_tab_three_item:
-                        showTabHistory();
+                    case R.id.menu_item_clear_database:
+                        alertDialog();
+                        break;
+                    case R.id.menu_item_synchronize:
+                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -151,12 +147,7 @@ public class MainActivity extends FragmentActivity
         dbWorker.addToDB(newExpanse);
         Log.d("dlgAddExpanse", "new expanse added: " + newExpanse.toString());
 
-        StatisticsFragment.statisticsFragment.refresh();
-
-//        if(flag) {
-//            flag = false;
-//            fillDBWithDefaultData();
-//        }
+//        StatisticsFragment.statisticsFragment.refresh();
     }
 
     public boolean isOnline() {
@@ -165,12 +156,6 @@ public class MainActivity extends FragmentActivity
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
-    private void showTabHistory(){ viewPager.setCurrentItem(Constants.TAB_HISTORY); }
-    private void showTabExpanses(){
-        viewPager.setCurrentItem(Constants.TAB_EXPANSES_LIST);
-    }
-    private void showTabStatistics(){ viewPager.setCurrentItem(Constants.TAB_STATISTICS); }
 
     @Override
     public void onModeSelected(int mode) {
@@ -239,13 +224,14 @@ public class MainActivity extends FragmentActivity
 //    }
 
     public void fillDBWithDefaultData() {
+        ArrayList<Expanse> expanses = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
             Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), "Food");
-            onNewExpanseAdded(expanse);
+            expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
 
@@ -253,7 +239,7 @@ public class MainActivity extends FragmentActivity
             calendar.set(Calendar.MONTH, i);
 
             Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), "Car");
-            onNewExpanseAdded(expanse);
+            expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
 
@@ -261,8 +247,33 @@ public class MainActivity extends FragmentActivity
             calendar.set(Calendar.MONTH, i);
 
             Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), "Health");
-            onNewExpanseAdded(expanse);
+            expanses.add(expanse);
         }
+        DBWorker.getInstance(this).addExpansesList(expanses);
+    }
+
+    private void alertDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+        alertBuilder.setTitle(R.string.alert_erasing_db_title)
+                    .setMessage(R.string.alert_erasing_db_message)
+                    .setCancelable(false)
+                    .setNegativeButton(R.string.alert_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton(R.string.alert_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DBWorker.getInstance(getApplicationContext()).eraseDB();
+                            Toast.makeText(getApplicationContext(), R.string.toast_after_erasing_db, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        alertBuilder.create();
+        alertBuilder.show();
     }
 
     @Override

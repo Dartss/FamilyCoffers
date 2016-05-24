@@ -25,5 +25,14 @@
     <string name="rb_history_today">Today</string>
     <string name="rb_history_month">Month</string>
     <string name="rb_history_alltime">All time</string>
+    <string name="menu_item_clear_database">Clear database</string>
+    <string name="menu_item_synchronize">Synchronize</string>
+    <string name="menu_item_create_new_family">Create new family</string>
+    <string name="menu_item_join_family">Join family</string>
+    <string name="alert_erasing_db_title">Attention</string>
+    <string name="alert_erasing_db_message">This action will delete all expanses and statistics. Are you sure?</string>
+    <string name="alert_no">No</string>
+    <string name="alert_yes">Yes</string>
+    <string name="toast_after_erasing_db">All data deleted</string>
 
 </resources>
