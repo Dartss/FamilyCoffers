@@ -8,5 +8,14 @@
         <item name="colorControlNormal">@color/mainBackground</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="actionModeStyle">@style/LStyled.ActionMode</item>
+
     </style>
+
+    <style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/colorPrimary</item>
+        <item name="android:actionMenuTextColor">@color/colorWhite</item>
+        <item name="android:subtitleTextColor">@color/colorWhite</item>
+    </style>
+
 </resources>

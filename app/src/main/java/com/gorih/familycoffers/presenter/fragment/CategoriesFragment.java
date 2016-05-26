@@ -97,9 +97,9 @@ public class CategoriesFragment extends AbstractFragment {
         return view;
     }
 
-    private void initFAB(final View view) {
+//    private void initFAB(final View view) {
 //        dlgAddCategory = new dlgAddCategory();
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
+//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
 
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -107,6 +107,6 @@ public class CategoriesFragment extends AbstractFragment {
 //                dlgAddCategory.show(getFragmentManager(), "new category");
 //            }
 //        });
-    }
+//    }
 
 }

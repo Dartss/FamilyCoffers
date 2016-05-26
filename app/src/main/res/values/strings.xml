@@ -34,5 +34,7 @@
     <string name="alert_no">No</string>
     <string name="alert_yes">Yes</string>
     <string name="toast_after_erasing_db">All data deleted</string>
+    <string name="cab_delete">delete</string>
+    <string name="cab_edit">edit</string>
 
 </resources>

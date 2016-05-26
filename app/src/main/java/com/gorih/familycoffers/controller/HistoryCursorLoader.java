@@ -2,6 +2,7 @@ package com.gorih.familycoffers.controller;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.CursorLoader;
 import android.util.Log;
 
@@ -20,10 +21,13 @@ public class HistoryCursorLoader extends CursorLoader {
 
     @Override
     public Cursor loadInBackground() {
-        Log.d("--CL--", dateFilter);
+        SQLiteDatabase db = DBWorker.dbWorker.getReadableDatabase();
         String selection = "date > ?";
         String[] selectionArgs = new String[] { dateFilter };
-        return DBWorker.getInstance(getContext()).getReadableDatabase().query("expanses",
-                null, selection, selectionArgs, null, null, null);
+
+        Cursor c = db.query("expanses", null, selection, selectionArgs, null, null, null);
+//        db.close();
+
+        return c;
     }
 }

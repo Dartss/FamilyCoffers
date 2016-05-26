@@ -10,22 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gorih.familycoffers.Constants;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.HistoryCursorLoader;
-import com.gorih.familycoffers.model.Category;
+import com.gorih.familycoffers.controller.HistoryMultiChoiceImpl;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,6 +31,7 @@ import java.util.Observer;
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
         LoaderCallbacks<Cursor>, Observer{
     private static final int LAYOUT = R.layout.fragment_history;
+    private static final String LOG = "--HistoryFrag--";
     public static HistoryFragment historyFragment = null;
     ListView listView;
     SimpleCursorAdapter adapter;
@@ -56,7 +55,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         view = inflater.inflate(LAYOUT, container, false);
         listView = (ListView) view.findViewById(R.id.lv_history_view_list);
 
-        DBWorker.getInstance(this.context).addObserverTodb(this);
+        DBWorker.dbWorker.addObserverTodb(this);
 
         String[] from = new String[] { "category", "value" , "date"};
         int[] to = new int[] { R.id.iv_history_item_category, R.id.tv_history_item_value, R.id.tv_history_item_date};
@@ -88,6 +87,8 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         });
 
         listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new HistoryMultiChoiceImpl(listView));
 
         getLoaderManager().initLoader(0, null, this);
         getLoaderManager().getLoader(0).forceLoad();
@@ -98,10 +99,14 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         return view;
     }
 
-
     public void onFilterSelected(long timeFilterValue){
         this.timeFilterValue = timeFilterValue;
+        refresh();
+    }
+
+    private void refresh(){
         getLoaderManager().restartLoader(0, null, historyFragment);
+        getLoaderManager().getLoader(0).forceLoad();
     }
 
     @Override
@@ -111,11 +116,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null) {
-            adapter.swapCursor(data);
-        } else {
-            Toast.makeText(this.context, "Cursor is Null", Toast.LENGTH_SHORT).show();
-        }
+        adapter.swapCursor(data);
     }
 
     @Override
@@ -123,6 +124,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
     @Override
     public void update(Observable observable, Object data) {
-        getLoaderManager().restartLoader(0, null, historyFragment);
+        refresh();
     }
+
 }
