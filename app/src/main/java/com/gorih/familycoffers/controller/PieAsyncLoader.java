@@ -61,8 +61,8 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
         }
 
         Log.d("---Log---", "\t" + allExpanses);
-        cursor.close();
-        db.close();
+//        cursor.close();
+//        db.close();
 
         return allExpanses;
     }

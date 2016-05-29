@@ -31,7 +31,7 @@ import java.util.Observer;
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
         LoaderCallbacks<Cursor>, Observer{
     private static final int LAYOUT = R.layout.fragment_history;
-    private static final String LOG = "--HistoryFrag--";
+    private static final String TAG = "--HistoryFrag--";
     public static HistoryFragment historyFragment = null;
     ListView listView;
     SimpleCursorAdapter adapter;
@@ -120,7 +120,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) { }
+    public void onLoaderReset(Loader<Cursor> loader) { adapter.swapCursor(null);}
 
     @Override
     public void update(Observable observable, Object data) {
