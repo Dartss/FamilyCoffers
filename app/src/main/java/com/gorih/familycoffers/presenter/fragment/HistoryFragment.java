@@ -22,6 +22,7 @@ import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.HistoryCursorLoader;
 import com.gorih.familycoffers.controller.HistoryMultiChoiceImpl;
+import com.gorih.familycoffers.model.Categories;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +58,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
         DBWorker.dbWorker.addObserverTodb(this);
 
-        String[] from = new String[] { "category", "value" , "date"};
+        String[] from = new String[] { "category_id", "value" , "date"};
         int[] to = new int[] { R.id.iv_history_item_category, R.id.tv_history_item_value, R.id.tv_history_item_date};
 
         adapter = new SimpleCursorAdapter(this.context, R.layout.history_list_item, null, from, to, 0);
@@ -72,6 +73,13 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
                     String dateText = sdf.format(date);
                     TextView textView = (TextView) aView;
                     textView.setText(dateText);
+                    return true;
+                }
+
+                if (aColumnIndex == 1) {
+                    String categoryName = Categories.instance.findCategoryById(aCursor.getInt(1)).getName();
+                    TextView textView = (TextView) aView;
+                    textView.setText(categoryName);
                     return true;
                 }
 

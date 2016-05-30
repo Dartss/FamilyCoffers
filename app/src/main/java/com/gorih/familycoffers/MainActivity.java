@@ -15,9 +15,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.gorih.familycoffers.controller.CategoriesListAdapter;
 import com.gorih.familycoffers.controller.DBWorker;
+import com.gorih.familycoffers.controller.FileWorker;
 import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
+import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Expanse;
+import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 import com.gorih.familycoffers.presenter.dialog.dlgFirstLaunch;
 
@@ -25,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
-        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener {
+        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener, dlgAddCategory.OnNewCategoryAddedListener {
 
     private static final String TAG = "--MainActivity--";
 
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onCreate");
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        Categories.initiation(this);
         initToolbar();
         initNavigationView();
         initTabs();
@@ -129,7 +134,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), "Food");
+            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), Categories.instance.findCategoryById(0));
             expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
@@ -137,7 +142,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), "Car");
+            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), Categories.instance.findCategoryById(1));
             expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
@@ -145,7 +150,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), "Health");
+            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), Categories.instance.findCategoryById(2));
             expanses.add(expanse);
         }
         DBWorker.getInstance(this).addExpansesList(expanses);
@@ -176,10 +181,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        FileWorker fileWorker  = FileWorker.getInstance(this);
+        fileWorker.removeFile();
+        fileWorker.writeCategories(Categories.instance.getAllCategoriesList());
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         //Sorry...no better ideas
         System.exit(0);
+    }
+
+    @Override
+    public void onNewCategoryAdded(String newCategoryName, int newCategoryColor) {
+        Categories.instance.addNewCategory(newCategoryName, newCategoryColor);
+        CategoriesListAdapter.getInstance().setNewList(Categories.instance.getAllCategoriesList());
+        CategoriesListAdapter.getInstance().notifyDataSetChanged();
+        Log.d(TAG, "after adding count = "+CategoriesListAdapter.getInstance().getItemCount());
     }
 }
 

@@ -4,14 +4,17 @@ public class Category {
     private final String name;
     private final int color;
     private final int icon;
-    private float sumOfValues;
+    private int id;
 
     public Category(String name, int color, int icon) {
         this.name = name;
         this.color = color;
         this.icon = icon;
-        sumOfValues = 0;
     }
+
+    public void setId(int id) { this.id = id; }
+
+    public int getId() { return id; }
 
     public String getName() {
         return name;
@@ -20,16 +23,4 @@ public class Category {
     public int getColor() { return color; }
 
     public int getIcon() { return icon; }
-
-    public void addValueToSum(float value) {
-        sumOfValues += value;
-    }
-
-    public float getSumOfValues() {
-        return sumOfValues;
-    }
-
-    public void eraseSum() {
-        this.sumOfValues = 0;
-    }
 }

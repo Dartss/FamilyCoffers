@@ -1,31 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:theme="@style/AppDefault">
+    android:theme="@style/AppDefault"
+    android:gravity="center_horizontal">
+
+    <com.larswerkman.lobsterpicker.LobsterPicker
+        android:id="@+id/lobsterpicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:id="@+id/dlg_new_category_name"
-        android:clickable="false"
-        android:maxLength="30"/>
-    <Button
+    <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
+        android:id="@+id/shadeslider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/btn_dlg_tak"
-        android:text="@string/dlg_new_category_btn_ok"
-        />
+        android:layout_marginTop="24dp"/>
 
+    <EditText
+        android:id="@+id/et_dlg_add_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/et_dlg_add_category"
+        android:layout_marginTop="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:gravity="right">
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/btn_dlg_add_category_positive"
+            android:text="@string/btn_dlg_add_category_positive"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_dlg_add_category_negative"
+            android:text="@string/btn_dlg_add_category_negative"
+            style="?android:attr/borderlessButtonStyle"/>
+    </LinearLayout>
 
 </LinearLayout>

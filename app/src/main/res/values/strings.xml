@@ -36,5 +36,8 @@
     <string name="toast_after_erasing_db">All data deleted</string>
     <string name="cab_delete">delete</string>
     <string name="cab_edit">edit</string>
+    <string name="et_dlg_add_category">Category name</string>
+    <string name="btn_dlg_add_category_positive">Apply</string>
+    <string name="btn_dlg_add_category_negative">Cancel</string>
 
 </resources>

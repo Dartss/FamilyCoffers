@@ -8,11 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gorih.familycoffers.R;
+import com.gorih.familycoffers.model.Categories;
+import com.gorih.familycoffers.model.Category;
 import com.gorih.familycoffers.model.Expanse;
 
 import java.lang.reflect.Field;
@@ -20,7 +21,7 @@ import java.lang.reflect.Field;
 
 public class dlgAddExpanse extends DialogFragment implements View.OnClickListener {
     private EditText newExpanseValue;
-    private String categoryName;
+    private Category category;
     private final float MAX_VALUE = 1000000;
 
     private static final Field sChildFragmentManagerField;
@@ -34,11 +35,11 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         void onNewExpanseAdded(Expanse newExpanse);
     }
 
-    public static dlgAddExpanse newInstance(String categoryName) {
+    public static dlgAddExpanse newInstance(int categoryId) {
         dlgAddExpanse instance = new dlgAddExpanse();
 
         Bundle args = new Bundle();
-        args.putString("CategoryName", categoryName);
+        args.putInt("CategoryId", categoryId);
         instance.setArguments(args);
 
         return instance;
@@ -49,7 +50,7 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         setStyle(STYLE_NO_TITLE, 0);
         super.onCreate(savedInstanceState);
 
-        categoryName = getArguments().getString("CategoryName");
+        category = Categories.instance.findCategoryById(getArguments().getInt("CategoryId"));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         View v = inflater.inflate(R.layout.dialog_add_expanse, null);
 
         TextView tvExpanseCategory = (TextView) v.findViewById(R.id.tv_dlg_expanse_category_name);
-        tvExpanseCategory.setText(categoryName);
+        tvExpanseCategory.setText(category.getName());
 
         v.findViewById(R.id.button_dlg_expanse_confirm).setOnClickListener(this);
 
@@ -90,7 +91,7 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         }
 
         if (isValid(value)) {
-            Expanse newExpanse = new Expanse(value, System.currentTimeMillis(), categoryName);
+            Expanse newExpanse = new Expanse(value, System.currentTimeMillis(), category);
             mListener.onNewExpanseAdded(newExpanse);
             dismiss();
         }

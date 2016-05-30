@@ -2,13 +2,11 @@ package com.gorih.familycoffers.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.gorih.familycoffers.model.Expanse;
-import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -35,7 +33,7 @@ public class DBWorker extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("create table expanses ("
-                + "_id" + " integer primary key autoincrement, " + "category text, "
+                + "_id" + " integer primary key autoincrement, " + "category_id int, "
                 + "value float, " + "date long" + ");");
 
         Log.d(LOG, "DB Was Created");
@@ -54,7 +52,7 @@ public class DBWorker extends SQLiteOpenHelper {
     public void addToDB(Expanse expanse){
         ContentValues cv = new ContentValues();
         db = getWritableDatabase();
-        cv.put("category", expanse.getCategory());
+        cv.put("category_id", expanse.getCategory().getId());
         cv.put("value", expanse.getValue());
         cv.put("date", expanse.getDate());
         long rowID = db.insert("expanses", null, cv);
@@ -64,7 +62,7 @@ public class DBWorker extends SQLiteOpenHelper {
         dbNotifier.sendNotifications();
     }
 
-    public void delFromDB(long[] idToDel){
+    public void delFromDB(long[] idToDel) {
         db = getWritableDatabase();
         for(long expanseId : idToDel) {
             db.delete("expanses", "_id="+expanseId, null);
@@ -94,7 +92,7 @@ public class DBWorker extends SQLiteOpenHelper {
         db = getWritableDatabase();
 
         for(Expanse expanse : expanses) {
-            cv.put("category", expanse.getCategory());
+            cv.put("category_id", expanse.getCategory().getId());
             cv.put("value", expanse.getValue());
             cv.put("date", expanse.getDate());
             long rowID = db.insert("expanses", null, cv);

@@ -1,6 +1,7 @@
 package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -11,10 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.gorih.familycoffers.Constants;
-import com.gorih.familycoffers.MainActivity;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FilterListener;
@@ -23,7 +22,6 @@ import com.gorih.familycoffers.controller.PieDrawer;
 import com.gorih.familycoffers.model.Expanse;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -108,29 +106,29 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         }
 
 
-        HashMap<String, Float> result = calculatePercentForEachExpanse(allExpenses);
+        HashMap<Integer, Float> result = calculatePercentForEachExpanse(allExpenses);
         linearLayoutContainer.addView(filterRadioGroup);
         linearLayoutContainer.addView(new PieDrawer(this.context, result));
         frameLayoutPie.addView(linearLayoutContainer);
     }
 
-    private HashMap<String, Float> calculatePercentForEachExpanse(ArrayList<Expanse> allExpenses) {
-        HashMap<String, Float> totalValues = new HashMap<>();
+    private HashMap<Integer, Float> calculatePercentForEachExpanse(ArrayList<Expanse> allExpenses) {
+        HashMap<Integer, Float> totalValues = new HashMap<>();
         float sumOfAllExpanses = 0;
 
         for(Expanse eachExpense : allExpenses ) {
-            String curExpCategory = eachExpense.getCategory();
+            int curExpCategory = eachExpense.getCategory().getId();
             Float curExpValue = eachExpense.getValue();
             sumOfAllExpanses += curExpValue;
 
             if (totalValues.containsKey(curExpCategory)) {
                 totalValues.put(curExpCategory, totalValues.get(curExpCategory) + curExpValue);
             } else {
-                totalValues.put(eachExpense.getCategory(), curExpValue);
+                totalValues.put(curExpCategory, curExpValue);
             }
         }
 
-        for (Map.Entry<String, Float> entry : totalValues.entrySet() ) {
+        for (Map.Entry<Integer, Float> entry : totalValues.entrySet() ) {
             totalValues.put(entry.getKey(), (entry.getValue() * 360) / sumOfAllExpanses);
         }
 

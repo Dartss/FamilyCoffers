@@ -1,35 +1,37 @@
-//package com.gorih.familycoffers.controller;
-//
-//
-//import android.content.Context;
-//
-//import com.google.gson.Gson;
-//
-//import java.io.BufferedReader;
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.io.OutputStreamWriter;
-//
-//public class FileWorker {
-//    private static FileWorker fileWorker;
-//    private final String filename = "familyMemberInfo.json";
-//    private Context context;
-//
-//    public static FileWorker getInstance(Context context) {
-//        if (fileWorker == null) {
-//            fileWorker = new FileWorker(context);
-//        }
-//
-//        return fileWorker;
-//    }
-//
-//    private FileWorker(Context context) {
-//
-//        this.context = context;
-//    }
-//
+package com.gorih.familycoffers.controller;
+
+
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.gorih.familycoffers.model.Category;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
+public class FileWorker {
+    private static FileWorker fileWorker;
+    private final String filename = "familyMemberInfo.json";
+    private Context context;
+
+    public static FileWorker getInstance(Context context) {
+        if (fileWorker == null) {
+            fileWorker = new FileWorker(context);
+        }
+
+        return fileWorker;
+    }
+
+    private FileWorker(Context context) {
+
+        this.context = context;
+    }
+
 //    public void writeFamilyMemberInfo (FamilyMember member) {
 //        Gson gson = new Gson();
 //
@@ -43,12 +45,12 @@
 //            e.printStackTrace();
 //        }
 //    }
-//
-//    public void removeFile() {
-//        File file = new File(context.getFilesDir(), filename);
-//        file.delete();
-//    }
-//
+
+    public void removeFile() {
+        File file = new File(context.getFilesDir(), filename);
+        file.delete();
+    }
+
 //    public FamilyMember readFamilyMemberInfo() throws IOException {
 //        FamilyMember familyMember;
 //        Gson gson = new Gson();
@@ -61,20 +63,40 @@
 //
 //        return familyMember;
 //    }
-//
-//    //
-////    public void writeCategory(Category category) {
-////        Gson gson = new Gson();
-////
-////        try {
-////            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-////                    context.openFileOutput(filename, Context.MODE_APPEND)));
-////            String jsonRepresentation = gson.toJson(category);
-////            bw.write(jsonRepresentation);
-////            bw.newLine();
-////            bw.close();
-////        } catch (IOException e) {
-////            e.printStackTrace();
-////        }
-////    }
-//}
+
+    public ArrayList<Category> readCategories() {
+        ArrayList<Category> categories = new ArrayList<>();
+        Gson gson = new Gson();
+
+        try {
+            BufferedReader buffered = new BufferedReader(new InputStreamReader(
+                    context.openFileInput(filename)));
+            String reader;
+            while ( (reader = buffered.readLine()) != null) {
+                categories.add(gson.fromJson(reader, Category.class));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+
+
+    public void writeCategories(ArrayList<Category> categories) {
+        Gson gson = new Gson();
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    context.openFileOutput(filename, Context.MODE_APPEND)));
+            for (Category category : categories) {
+                String jsonRepresentation = gson.toJson(category);
+                bw.write(jsonRepresentation);
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

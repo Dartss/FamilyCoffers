@@ -5,6 +5,8 @@ public class Constants {
     public static final int TAB_STATISTICS = 1;
     public static final int TAB_HISTORY = 2;
 
+    public static final int DEFAULT_CATEGORY_ICON = R.mipmap.ic_plus_box;
+
     public static final String MEMBER_ID = "member_id";
     public static final String LAUNCHED_FIRST_TIME = "launched_at_first";
 

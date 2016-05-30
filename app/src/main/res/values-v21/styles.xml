@@ -9,7 +9,6 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="actionModeStyle">@style/LStyled.ActionMode</item>
-
     </style>
 
     <style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionBar">

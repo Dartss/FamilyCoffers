@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,12 +14,10 @@ import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.categoriesViewHolder> {
 
-    private ArrayList<Category> categories = Categories.getInstance().getAllCategoriesList();
+    private ArrayList<Category> categories = Categories.instance.getAllCategoriesList();
     private OnItemClickListener listener ;
 
     private static CategoriesListAdapter adapter;
@@ -40,6 +37,9 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
         adapter = new CategoriesListAdapter(listener);
     }
 
+    public void setNewList(ArrayList<Category> newList) {
+        categories = newList;
+    }
 
     private CategoriesListAdapter(OnItemClickListener listener) {
         this.listener = listener;
@@ -79,7 +79,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
         public void bind(final Category category, final OnItemClickListener listener ) {
             title.setText(category.getName());
             categoryIcon.setImageResource(category.getIcon());
-            coloredLine.setBackgroundResource(category.getColor());
+            coloredLine.setBackgroundColor(category.getColor());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onItemClick(category);

@@ -27,8 +27,6 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
         SQLiteDatabase db = dbWorker.getReadableDatabase();
         ArrayList<Expanse> allExpanses = new ArrayList<>();
 
-        Categories.getInstance().removeAllTotalValues();
-
         if (dateFrom > 0) {
             Log.d("---PAL--", "filtered cursor");
             String selection = "date > ?";
@@ -42,18 +40,17 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
         }
 
         if (cursor.moveToFirst()) {
-            int nameColIndex= cursor.getColumnIndex("category");
+            int nameColIndex= cursor.getColumnIndex("category_id");
             int valueColIndex = cursor.getColumnIndex("value");
             int dateColIndex = cursor.getColumnIndex("date");
 
             do {
-                String expanseCategory = cursor.getString(nameColIndex);
+                Integer expanseCategoryId = cursor.getInt(nameColIndex);
                 Float expanseValue = cursor.getFloat(valueColIndex);
                 Long expanseDate = cursor.getLong(dateColIndex);
 
-                allExpanses.add(new Expanse(expanseValue, expanseDate, expanseCategory));
-                Categories.getInstance().addValueToCategory(expanseCategory, expanseValue);
-
+                allExpanses.add(new Expanse(expanseValue, expanseDate,
+                        Categories.instance.findCategoryById(expanseCategoryId)));
             } while (cursor.moveToNext());
 
         } else {
@@ -61,8 +58,6 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
         }
 
         Log.d("---Log---", "\t" + allExpanses);
-//        cursor.close();
-//        db.close();
 
         return allExpanses;
     }

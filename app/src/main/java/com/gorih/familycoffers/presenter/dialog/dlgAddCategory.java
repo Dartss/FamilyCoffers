@@ -7,18 +7,24 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
+import com.larswerkman.lobsterpicker.LobsterPicker;
+import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 public class dlgAddCategory extends DialogFragment implements View.OnClickListener {
-    private EditText newCategoryName;
+    private static final String TAG = "--DlgAddCategory--";
+    EditText nameField;
+    LobsterPicker lobsterPicker;
+
     OnNewCategoryAddedListener mListener;
 
     public interface OnNewCategoryAddedListener {
-        public void onNewCategoryAdded(String newCategoryName);
+        void onNewCategoryAdded(String newCategoryName, int newCategoryColor);
     }
 
     @Override
@@ -26,15 +32,28 @@ public class dlgAddCategory extends DialogFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         getDialog().setTitle(R.string.dlg_new_category_tittle);
         View v = inflater.inflate(R.layout.dialog_add_category, null);
-        v.findViewById(R.id.btn_dlg_tak).setOnClickListener(this);
-        newCategoryName = (EditText)v.findViewById(R.id.dlg_new_category_name);
+
+        Button apply = (Button) v.findViewById(R.id.btn_dlg_add_category_positive);
+        apply.setOnClickListener(this);
+
+        Button dismiss = (Button) v.findViewById(R.id.btn_dlg_add_category_negative);
+        dismiss.setOnClickListener(this);
+
+        nameField = (EditText) v.findViewById(R.id.et_dlg_add_category);
+
+        lobsterPicker = (LobsterPicker) v.findViewById(R.id.lobsterpicker);
+        LobsterShadeSlider shadeSlider = (LobsterShadeSlider) v.findViewById(R.id.shadeslider);
+
+        lobsterPicker.addDecorator(shadeSlider);
+
+        lobsterPicker.setColorHistoryEnabled(true);
+
         return v;
     }
 
-        @Override
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
         try {
             mListener = (OnNewCategoryAddedListener) activity;
         } catch (ClassCastException e) {
@@ -44,25 +63,32 @@ public class dlgAddCategory extends DialogFragment implements View.OnClickListen
 
     }
 
+    @Override
     public void onClick(View v) {
-        String inputValue = (newCategoryName.getText().toString());
+        String inputValue = (nameField.getText().toString());
+
+        if(v.getId() == R.id.btn_dlg_add_category_negative) {
+            dismiss();
+        }
 
         if (isValid(inputValue)){
-            mListener.onNewCategoryAdded(inputValue);
+            mListener.onNewCategoryAdded(nameField.getText().toString(), lobsterPicker.getColor());
             dismiss();
         }
     }
 
+    @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        newCategoryName.getText().clear();
+        nameField.getText().clear();
     }
 
     boolean isValid(String newCategoryName){
         if (newCategoryName.equals("")) {
            return false;
         }
-        for (Category category : Categories.getInstance().getAllCategoriesMap().values()) {
+
+        for (Category category : Categories.instance.getAllCategoriesList()) {
             if (category.getName().equals(newCategoryName)) return false;
         }
 

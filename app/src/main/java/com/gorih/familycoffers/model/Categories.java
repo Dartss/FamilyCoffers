@@ -1,58 +1,57 @@
 package com.gorih.familycoffers.model;
 
+import android.content.Context;
 import android.util.Log;
 
-import com.gorih.familycoffers.R;
+import com.gorih.familycoffers.Constants;
+import com.gorih.familycoffers.controller.FileWorker;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 public class Categories {
-    private HashMap<String, Category> allCategories = new HashMap<>();
-    private static Categories categoriesInstance = null;
+    private static final String TAG = "--Categories--";
+    private ArrayList<Category> allCategories = new ArrayList<>();
+    public static Categories instance = null;
+    private Context context;
 
-    public static Categories getInstance() {
-        if (categoriesInstance == null) {
-            categoriesInstance = new Categories();
+    public static Categories initiation(Context context) {
+        if (instance == null) {
+            instance = new Categories(context);
         }
-        return categoriesInstance;
+        return instance;
     }
 
-    private Categories() {
-        init();
-    }
+    private Categories(Context context) {
+        this.context = context;
+        init(); }
 
-    private void init() {
-        allCategories.put("Food", new Category("Food", R.color.colorFoodCategory, R.mipmap.ic_food_variant));
-        allCategories.put("Car", new Category("Car", R.color.colorCarCategory, R.mipmap.ic_car));
-        allCategories.put("Sports", new Category("Sports", R.color.colorSportsCategory, R.mipmap.ic_bike));
-        allCategories.put("Health", new Category("Health", R.color.colorHealthCategory, R.mipmap.ic_heart_pulse));
-        allCategories.put("Luxury", new Category("Luxury", R.color.colorLuxuryCategory, R.mipmap.ic_diamond));
-        allCategories.put("Home", new Category("Home", R.color.colorHomeCategory, R.mipmap.ic_home_variant));
-        allCategories.put("Shit", new Category("Shit", R.color.colorShitCategory, R.mipmap.ic_emoticon_poop));
+    public void init() {
+        allCategories = FileWorker.getInstance(context).readCategories();
+//        allCategories.add(new Category("Food", Color.parseColor("#00e676"), R.mipmap.ic_food_variant));
+//        allCategories.add(new Category("Car", Color.parseColor("#a1887f"), R.mipmap.ic_car));
+//        allCategories.add(new Category("Sports", Color.parseColor("#1de9b6"), R.mipmap.ic_bike));
+//        allCategories.add(new Category("Health", Color.parseColor("#e91e63"), R.mipmap.ic_heart_pulse));
+//        allCategories.add(new Category("Luxury", Color.parseColor("#304ffe"), R.mipmap.ic_diamond));
+//        allCategories.add(new Category("Home", Color.parseColor("#ffb74d"), R.mipmap.ic_home_variant));
+//        allCategories.add(new Category("Shit", Color.parseColor("#827717"), R.mipmap.ic_emoticon_poop));
     }
-
-    public HashMap<String, Category> getAllCategoriesMap() { return allCategories; }
 
     public ArrayList<Category> getAllCategoriesList() {
-        Collection<Category> collection = allCategories.values();
-        return new ArrayList<>(collection);
+        return allCategories;
     }
 
-    public void addValueToCategory(String categoryName, float valueToAdd) {
-        Category category = allCategories.get(categoryName);
-
-        if (category != null){
-            category.addValueToSum(valueToAdd);
-        } else {
-            Log.d("Categories", "Wrong category name");
-        }
+    public void addNewCategory(String newCategoryName, int newCategoryColor) {
+        Category newCategory = new Category(newCategoryName, newCategoryColor, Constants.DEFAULT_CATEGORY_ICON);
+        newCategory.setId(allCategories.size());
+        allCategories.add(newCategory);
+        Log.d(TAG, "New category added:"+newCategoryName+" id= "+newCategory.getId());
     }
 
-    public void removeAllTotalValues() {
-        for (Category cat : allCategories.values()) {
-            cat.eraseSum();
+    public Category findCategoryById(int id) {
+        for(Category category : allCategories) {
+            if(category.getId() == id) return category;
         }
+
+        return null;
     }
 }

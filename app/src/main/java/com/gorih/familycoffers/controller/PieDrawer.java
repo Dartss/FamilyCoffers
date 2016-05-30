@@ -5,13 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.gorih.familycoffers.model.Categories;
+import com.gorih.familycoffers.model.Category;
 
 import java.util.Formatter;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ import java.util.Map;
 public class PieDrawer extends View {
     Paint paintColors;
     Paint paintText;
-    HashMap<String , Float> toDraw;
+    HashMap<Integer , Float> toDraw;
     RectF rectf;
     float pieDiameter;
     float margin;
@@ -28,7 +27,7 @@ public class PieDrawer extends View {
     int viewHeight;
     float colorRectSize;
 
-    public PieDrawer(Context context, HashMap<String, Float> expanses) {
+    public PieDrawer(Context context, HashMap<Integer, Float> expanses) {
         super(context);
         paintColors = new Paint();
         paintText = new Paint();
@@ -74,10 +73,12 @@ public class PieDrawer extends View {
         canvas.drawCircle(circleCenterCords, circleCenterCords, backgroundCircleRadius, paintColors);
         rectf = new RectF(rectXY1, rectXY1, rectXY2, rectXY2);
 
-        for(Map.Entry<String, Float> entry: toDraw.entrySet()) {
+        for(Map.Entry<Integer, Float> entry: toDraw.entrySet()) {
+            Category category = Categories.instance.findCategoryById(entry.getKey());
             formatter = new Formatter();
-            int mColorId = Categories.getInstance().getAllCategoriesMap().get(entry.getKey()).getColor();
-            int mColor = ContextCompat.getColor(getContext(), mColorId);
+//            int mColorId = Categories.initiation().getAllCategoriesMap().get(entry.getKey()).getColor();
+//            int mColor = ContextCompat.getColor(getContext(), mColorId);
+            int mColor = category.getColor();
             float mAngel = entry.getValue();
 
             paintColors.setColor(mColor);
@@ -89,7 +90,7 @@ public class PieDrawer extends View {
             canvas.drawRect(paddingLegend, legendStartLocation, paddingLegend + colorRectSize,
                     legendStartLocation + colorRectSize, paintColors);
             formatter.format("%.2f", (100 * mAngel) / 360);
-            canvas.drawText(" - " + entry.getKey() +
+            canvas.drawText(" - " + category.getName() +
                     " (" + formatter + "%)", textPadding, legendStartLocation+colorRectSize, paintText);
 
             legendStartLocation += paddingLegend /2 + colorRectSize;
