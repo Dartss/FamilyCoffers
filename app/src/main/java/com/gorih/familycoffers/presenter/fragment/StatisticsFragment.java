@@ -1,7 +1,6 @@
 package com.gorih.familycoffers.presenter.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -19,6 +18,7 @@ import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
+import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Expanse;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         <ArrayList<Expanse>>, Observer {
     private static final int LAYOUT = R.layout.fragment_statistics;
     private static final int DEFAULT_ID = 1;
-    private static final String LOG = "--StatisticsFR--";
+    private static final String TAG = "--StatisticsFR--";
     public static StatisticsFragment statisticsFragment = null;
     private ScrollView frameLayoutPie;
     private LinearLayout linearLayoutContainer;
@@ -60,7 +60,7 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(LOG, "OnCreateView");
+        Log.d(TAG, "OnCreateView");
         this.view = inflater.inflate(LAYOUT, null, false);
 
         DBWorker.getInstance(this.context).addObserverTodb(this);
@@ -83,11 +83,12 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     public void onFilterSelected(Long timeFilterValue) {
         this.timeFilterValue = timeFilterValue;
         refresh();
+        Log.d(TAG, "onFilterSelected");
     }
 
     @Override
     public android.support.v4.content.Loader<ArrayList<Expanse>> onCreateLoader(int id, Bundle args) {
-        Log.d(LOG, "TimeFilterValue = " + timeFilterValue);
+        Log.d(TAG, "onCreateLoader");
         return new PieAsyncLoader(this.context, timeFilterValue);
 
     }
@@ -95,16 +96,17 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<ArrayList<Expanse>> loader,
                                ArrayList<Expanse> allExpenses) {
-        Log.d(LOG, "loader restarted");
-        frameLayoutPie.removeAllViews();
         linearLayoutContainer.removeAllViews();
+        frameLayoutPie.removeAllViews();
 
         if(allExpenses.size() == 0) {
+            Log.d(TAG, "Nothing to show3");
             LayoutInflater ltInflater = getLayoutInflater(null);
-            frameLayoutPie.addView(ltInflater.inflate(R.layout.empty_statistics_view, null, false));
+            linearLayoutContainer.addView(filterRadioGroup);
+            linearLayoutContainer.addView(ltInflater.inflate(R.layout.empty_statistics_view, frameLayoutPie, false));
+            frameLayoutPie.addView(linearLayoutContainer);
             return;
         }
-
 
         HashMap<Integer, Float> result = calculatePercentForEachExpanse(allExpenses);
         linearLayoutContainer.addView(filterRadioGroup);
@@ -141,6 +143,6 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Override
     public void update(Observable observable, Object data) {
         refresh();
-        Log.d(LOG, "updated");
+        Log.d(TAG, "updated");
     }
 }
