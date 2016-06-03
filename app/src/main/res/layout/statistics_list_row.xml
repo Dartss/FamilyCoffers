@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/activatedBackgroundIndicator">
+
+    <View
+        android:id="@+id/statistics_list_category_color"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:paddingLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/statistics_list_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_toEndOf="@id/statistics_list_category_color"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical|center"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:layout_toRightOf="@id/statistics_list_category_color"
+        android:layout_marginLeft="10dp">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/statistics_list_percents"
+        android:textSize="20sp"
+        android:layout_toEndOf="@id/statistics_list_value"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical|center"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:layout_toRightOf="@id/statistics_list_value"
+        android:layout_marginLeft="10dp"/>
+
+</RelativeLayout>

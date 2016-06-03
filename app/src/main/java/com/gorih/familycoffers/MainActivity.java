@@ -70,15 +70,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu_join_family:
+                    case R.id.menu_item_clear_categories:
+                        alertDialog(Constants.ACTION_CLEAR_CATEGORIES);
+                        CategoriesListAdapter.getInstance().setNewList(Categories.instance.getAllCategoriesList());
+                        break;
+                    case R.id.feel_db:
 //                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
                         fillDBWithDefaultData();
                         break;
-                    case R.id.menu_item_create_new_family:
-                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
-                        break;
                     case R.id.menu_item_clear_database:
-                        alertDialog();
+                        alertDialog(Constants.ACTION_ERASE_DB);
                         break;
                     case R.id.menu_item_synchronize:
                         Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         DBWorker.getInstance(this).addExpansesList(expanses);
     }
 
-    private void alertDialog() {
+    private void alertDialog(final int actionID) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
         alertBuilder.setTitle(R.string.alert_erasing_db_title)
@@ -171,8 +172,16 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(R.string.alert_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DBWorker.getInstance(getApplicationContext()).eraseDB();
-                        Toast.makeText(getApplicationContext(), R.string.toast_after_erasing_db, Toast.LENGTH_SHORT).show();
+                        if(actionID == Constants.ACTION_ERASE_DB){
+                            DBWorker.getInstance(getApplicationContext()).eraseDB();
+                            Toast.makeText(getApplicationContext(), R.string.toast_after_erasing_db, Toast.LENGTH_SHORT).show();
+                        }
+                        if(actionID == Constants.ACTION_CLEAR_CATEGORIES){
+                            DBWorker.getInstance(getApplicationContext()).eraseDB();
+                            Categories.instance.removeAllCategories();
+                            FileWorker.getInstance(getApplicationContext()).removeFile();
+                        }
+
                     }
                 });
 
@@ -180,13 +189,6 @@ public class MainActivity extends AppCompatActivity
         alertBuilder.show();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FileWorker fileWorker  = FileWorker.getInstance(this);
-        fileWorker.removeFile();
-        fileWorker.writeCategories(Categories.instance.getAllCategoriesList());
-    }
 
     @Override
     protected void onDestroy() {

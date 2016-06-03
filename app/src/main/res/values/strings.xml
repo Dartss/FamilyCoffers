@@ -39,5 +39,6 @@
     <string name="et_dlg_add_category">Category name</string>
     <string name="btn_dlg_add_category_positive">Apply</string>
     <string name="btn_dlg_add_category_negative">Cancel</string>
+    <string name="menu_item_clear_categories">Clear categories</string>
 
 </resources>

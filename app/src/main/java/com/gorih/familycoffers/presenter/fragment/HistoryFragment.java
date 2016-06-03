@@ -110,6 +110,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
     public void onFilterSelected(long timeFilterValue){
         this.timeFilterValue = timeFilterValue;
         refresh();
+        Log.d(TAG, "onFilterSelected");
     }
 
     private void refresh(){
@@ -119,6 +120,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader");
         return new HistoryCursorLoader(this.context, timeFilterValue);
     }
 

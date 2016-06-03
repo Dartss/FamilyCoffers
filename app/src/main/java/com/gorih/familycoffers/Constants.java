@@ -14,6 +14,8 @@ public class Constants {
     public static final int ONLINE_MODE = 1;
     public static final int STATISTICS_FR_ID = 1;
     public static final int HISTORY_FR_ID = 0;
+    public static final int ACTION_ERASE_DB = 1;
+    public static final int ACTION_CLEAR_CATEGORIES = 0;
 
     public static class URL {
         public static final String HOST = "http://192.168.0.20:8080/";

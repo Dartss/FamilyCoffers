@@ -9,16 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
 import com.gorih.familycoffers.Constants;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.DBWorker;
+import com.gorih.familycoffers.controller.FileWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
-import com.gorih.familycoffers.model.Categories;
+import com.gorih.familycoffers.controller.StatisticsListAdapter;
+import com.gorih.familycoffers.controller.Utility;
+import com.gorih.familycoffers.model.CategIdAndValue;
 import com.gorih.familycoffers.model.Expanse;
 
 import java.util.ArrayList;
@@ -36,7 +40,9 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     private ScrollView frameLayoutPie;
     private LinearLayout linearLayoutContainer;
     private RadioGroup filterRadioGroup;
+    private ListView listView;
     private long timeFilterValue = 0;
+    float sumOfAllExpanses = 0;
 
 
     public static StatisticsFragment getInstance(Context context) {
@@ -64,15 +70,20 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         this.view = inflater.inflate(LAYOUT, null, false);
 
         DBWorker.getInstance(this.context).addObserverTodb(this);
-        frameLayoutPie = (ScrollView) view.findViewById(R.id.ll_statistics_root);
         filterRadioGroup = (RadioGroup) inflater.inflate(R.layout.history_radio_group, linearLayoutContainer, false);
         filterRadioGroup.setOnCheckedChangeListener(new FilterListener(Constants.STATISTICS_FR_ID));
 
+        listView = new ListView(this.context);
+
+        frameLayoutPie = (ScrollView) view.findViewById(R.id.ll_statistics_root);
         linearLayoutContainer = new LinearLayout(this.context);
+        linearLayoutContainer.setFocusable(true);
         linearLayoutContainer.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linearLayoutContainer.setLayoutParams(params);
+
+        frameLayoutPie.scrollTo(0,0);
 
         getLoaderManager().initLoader(DEFAULT_ID, null, this);
         getLoaderManager().getLoader(DEFAULT_ID).forceLoad();
@@ -110,13 +121,19 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
 
         HashMap<Integer, Float> result = calculatePercentForEachExpanse(allExpenses);
         linearLayoutContainer.addView(filterRadioGroup);
-        linearLayoutContainer.addView(new PieDrawer(this.context, result));
+        linearLayoutContainer.addView(new PieDrawer(this.context, result, sumOfAllExpanses));
+
+        Log.d(TAG, "list conunt = "+listView.getAdapter().getCount());
+        linearLayoutContainer.addView(listView);
+        Utility.setListViewHeightBasedOnChildren(listView);
         frameLayoutPie.addView(linearLayoutContainer);
+        frameLayoutPie.scrollTo(0,0);
     }
 
     private HashMap<Integer, Float> calculatePercentForEachExpanse(ArrayList<Expanse> allExpenses) {
         HashMap<Integer, Float> totalValues = new HashMap<>();
-        float sumOfAllExpanses = 0;
+        ArrayList<CategIdAndValue> listForAdapter = new ArrayList<>();
+        sumOfAllExpanses = 0;
 
         for(Expanse eachExpense : allExpenses ) {
             int curExpCategory = eachExpense.getCategory().getId();
@@ -130,9 +147,12 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
             }
         }
 
-        for (Map.Entry<Integer, Float> entry : totalValues.entrySet() ) {
-            totalValues.put(entry.getKey(), (entry.getValue() * 360) / sumOfAllExpanses);
+        for(Map.Entry<Integer, Float> entry: totalValues.entrySet()) {
+            CategIdAndValue item = new CategIdAndValue(entry.getKey(), entry.getValue());
+            listForAdapter.add(item);
         }
+
+        listView.setAdapter(new StatisticsListAdapter(this.context, listForAdapter, sumOfAllExpanses));
 
         return totalValues;
     }

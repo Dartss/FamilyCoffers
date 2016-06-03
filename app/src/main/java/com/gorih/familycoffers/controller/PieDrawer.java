@@ -18,21 +18,20 @@ import java.util.Map;
 
 public class PieDrawer extends View {
     Paint paintColors;
-    Paint paintText;
-    HashMap<Integer , Float> toDraw;
+    HashMap<Integer , Float> toDraw = new HashMap<>();
     RectF rectf;
     float pieDiameter;
     float margin;
     float screenWidth;
     int viewHeight;
-    float colorRectSize;
 
-    public PieDrawer(Context context, HashMap<Integer, Float> expanses) {
+    public PieDrawer(Context context, HashMap<Integer, Float> expanses, float sumOfAllExpanses) {
         super(context);
         paintColors = new Paint();
-        paintText = new Paint();
 
-        this.toDraw = expanses;
+        for (Map.Entry<Integer, Float> entry : expanses.entrySet() ) {
+            toDraw.put(entry.getKey(), (entry.getValue() * 360) / sumOfAllExpanses);
+        }
 
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -40,9 +39,8 @@ public class PieDrawer extends View {
         screenWidth = metrics.widthPixels;
         margin = (float) (screenWidth * 0.1);
         pieDiameter = screenWidth - margin*2;
-        colorRectSize = screenWidth / 20;
 
-        viewHeight = (int) (pieDiameter + margin*2 + (colorRectSize+margin/2) * toDraw.size());
+        viewHeight = (int) (pieDiameter + margin*2);
 
     }
 
@@ -50,8 +48,6 @@ public class PieDrawer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         paintColors.setColor(Color.WHITE);
-
-        Formatter formatter;
 
         final float rectXY1 = margin;
         final float rectXY2 = screenWidth - margin;
@@ -61,13 +57,6 @@ public class PieDrawer extends View {
 
         final float foregroundCircleRadius = pieDiameter / 5;
 
-        final float paddingLegend = margin / 2;
-        final float textPadding= colorRectSize + margin;
-
-        float legendStartLocation = pieDiameter + margin*2;
-
-        paintText.setTextSize(colorRectSize);
-
         float mStartAngle = 0;
 
         canvas.drawCircle(circleCenterCords, circleCenterCords, backgroundCircleRadius, paintColors);
@@ -75,9 +64,6 @@ public class PieDrawer extends View {
 
         for(Map.Entry<Integer, Float> entry: toDraw.entrySet()) {
             Category category = Categories.instance.findCategoryById(entry.getKey());
-            formatter = new Formatter();
-//            int mColorId = Categories.initiation().getAllCategoriesMap().get(entry.getKey()).getColor();
-//            int mColor = ContextCompat.getColor(getContext(), mColorId);
             int mColor = category.getColor();
             float mAngel = entry.getValue();
 
@@ -86,14 +72,6 @@ public class PieDrawer extends View {
             canvas.drawArc(rectf, mStartAngle, mAngel, true, paintColors);
 
             mStartAngle += mAngel;
-
-            canvas.drawRect(paddingLegend, legendStartLocation, paddingLegend + colorRectSize,
-                    legendStartLocation + colorRectSize, paintColors);
-            formatter.format("%.2f", (100 * mAngel) / 360);
-            canvas.drawText(" - " + category.getName() +
-                    " (" + formatter + "%)", textPadding, legendStartLocation+colorRectSize, paintText);
-
-            legendStartLocation += paddingLegend /2 + colorRectSize;
 
             paintColors.setColor(Color.WHITE);
             canvas.drawCircle(circleCenterCords, circleCenterCords, foregroundCircleRadius, paintColors);

@@ -99,4 +99,19 @@ public class FileWorker {
             e.printStackTrace();
         }
     }
+
+    public void saveNewCategory(Category newCategory) {
+        Gson gson = new Gson();
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    context.openFileOutput(filename, Context.MODE_PRIVATE)));
+            String jsonRepresentation = gson.toJson(newCategory);
+            bw.write(jsonRepresentation);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
