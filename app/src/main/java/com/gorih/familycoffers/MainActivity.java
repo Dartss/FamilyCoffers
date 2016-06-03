@@ -23,13 +23,16 @@ import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Expanse;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
+import com.gorih.familycoffers.presenter.dialog.dlgEditCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgFirstLaunch;
+import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
-        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener, dlgAddCategory.OnNewCategoryAddedListener {
+        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener,
+        dlgAddCategory.OnNewCategoryAddedListener, dlgEditCategory.CategoryEditedListener {
 
     private static final String TAG = "--MainActivity--";
 
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity
                 switch (item.getItemId()) {
                     case R.id.menu_item_clear_categories:
                         alertDialog(Constants.ACTION_CLEAR_CATEGORIES);
-                        CategoriesListAdapter.getInstance().setNewList(Categories.instance.getAllCategoriesList());
                         break;
                     case R.id.feel_db:
 //                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), Categories.instance.findCategoryById(0));
+            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), 0);
             expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), Categories.instance.findCategoryById(1));
+            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), 1);
             expanses.add(expanse);
         }
         for(int i = 0; i < 4; i++) {
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
 
-            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), Categories.instance.findCategoryById(2));
+            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), 2);
             expanses.add(expanse);
         }
         DBWorker.getInstance(this).addExpansesList(expanses);
@@ -179,6 +181,8 @@ public class MainActivity extends AppCompatActivity
                         if(actionID == Constants.ACTION_CLEAR_CATEGORIES){
                             DBWorker.getInstance(getApplicationContext()).eraseDB();
                             Categories.instance.removeAllCategories();
+                            CategoriesListAdapter.getInstance().setNewList();
+                            CategoriesListAdapter.getInstance().notifyDataSetChanged();
                             FileWorker.getInstance(getApplicationContext()).removeFile();
                         }
 
@@ -189,6 +193,11 @@ public class MainActivity extends AppCompatActivity
         alertBuilder.show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FileWorker.getInstance(this).rewriteCategoriesList();
+    }
 
     @Override
     protected void onDestroy() {
@@ -200,9 +209,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNewCategoryAdded(String newCategoryName, int newCategoryColor) {
         Categories.instance.addNewCategory(newCategoryName, newCategoryColor);
-        CategoriesListAdapter.getInstance().setNewList(Categories.instance.getAllCategoriesList());
+        CategoriesListAdapter.getInstance().setNewList();
         CategoriesListAdapter.getInstance().notifyDataSetChanged();
         Log.d(TAG, "after adding count = "+CategoriesListAdapter.getInstance().getItemCount());
+    }
+
+    @Override
+    public void onCategoryChanged(String categoryNewName, int categoryNewColor, int targetCategoryId) {
+        Categories.instance.changeCategory(targetCategoryId, categoryNewName, categoryNewColor);
+        CategoriesListAdapter.getInstance().notifyDataSetChanged();
+        StatisticsFragment.statisticsFragment.refresh();
     }
 }
 

@@ -7,10 +7,10 @@ public class Expanse {
     private long date;
     private Category category;
 
-    public Expanse(float value, long date, Category categoryName) {
+    public Expanse(float value, long date, int categoryId) {
         this.value = value;
         this.date = date;
-        this.category = categoryName;
+        this.category = Categories.instance.findCategoryById(categoryId);
     }
 
     public Expanse() { }
@@ -47,6 +47,6 @@ public class Expanse {
 
     @Override
     public String toString() {
-        return this.category.getName() + " " + this.value + " " + this.date;
+        return this.category.getId() + " " + this.value + " " + this.date;
     }
 }

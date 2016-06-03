@@ -66,7 +66,6 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "OnCreateView");
         this.view = inflater.inflate(LAYOUT, null, false);
 
         DBWorker.getInstance(this.context).addObserverTodb(this);
@@ -94,12 +93,10 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     public void onFilterSelected(Long timeFilterValue) {
         this.timeFilterValue = timeFilterValue;
         refresh();
-        Log.d(TAG, "onFilterSelected");
     }
 
     @Override
     public android.support.v4.content.Loader<ArrayList<Expanse>> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader");
         return new PieAsyncLoader(this.context, timeFilterValue);
 
     }
@@ -111,7 +108,6 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         frameLayoutPie.removeAllViews();
 
         if(allExpenses.size() == 0) {
-            Log.d(TAG, "Nothing to show3");
             LayoutInflater ltInflater = getLayoutInflater(null);
             linearLayoutContainer.addView(filterRadioGroup);
             linearLayoutContainer.addView(ltInflater.inflate(R.layout.empty_statistics_view, frameLayoutPie, false));
@@ -163,6 +159,5 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
     @Override
     public void update(Observable observable, Object data) {
         refresh();
-        Log.d(TAG, "updated");
     }
 }

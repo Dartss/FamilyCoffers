@@ -34,10 +34,10 @@ public class Categories {
     }
 
     public void addNewCategory(String newCategoryName, int newCategoryColor) {
-        Category newCategory = new Category(newCategoryName, newCategoryColor, Constants.DEFAULT_CATEGORY_ICON);
-        newCategory.setId(allCategories.size());
+        Category newCategory = new Category(newCategoryName, newCategoryColor,
+                Constants.DEFAULT_CATEGORY_ICON, allCategories.size());
         allCategories.add(newCategory);
-        FileWorker.getInstance(context).saveNewCategory(newCategory);
+        FileWorker.getInstance(context).rewriteCategoriesList();
         Log.d(TAG, "New category added:"+newCategoryName+" id= "+newCategory.getId());
     }
 
@@ -51,5 +51,16 @@ public class Categories {
 
     public void removeAllCategories(){
         allCategories.clear();
+    }
+
+    public void changeCategory(int targetCategoryId, String categoryNewName, int categoryNewColor) {
+        for(Category category : allCategories) {
+            if(category.getId() == targetCategoryId) {
+                category.setName(categoryNewName);
+                category.setColor(categoryNewColor);
+                FileWorker.getInstance(context).rewriteCategoriesList();
+                return;
+            }
+        }
     }
 }

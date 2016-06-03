@@ -19,6 +19,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
     private ArrayList<Category> categories = Categories.instance.getAllCategoriesList();
     private OnItemClickListener listener ;
+    private OnItemLongClickListener longListener ;
 
     private static CategoriesListAdapter adapter;
 
@@ -26,23 +27,28 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
         void onItemClick(Category item);
     }
 
+    public interface OnItemLongClickListener {
+        void onLongClick(Category item);
+    }
+
     public static CategoriesListAdapter getInstance() {
         return adapter;
     }
 
-    public static void init(OnItemClickListener listener) {
+    public static void init(OnItemClickListener listener, OnItemLongClickListener longClickListener) {
         if (adapter != null ) {
             return;
         }
-        adapter = new CategoriesListAdapter(listener);
+        adapter = new CategoriesListAdapter(listener, longClickListener);
     }
 
-    public void setNewList(ArrayList<Category> newList) {
-        categories = newList;
+    public void setNewList() {
+        categories = Categories.instance.getAllCategoriesList();
     }
 
-    private CategoriesListAdapter(OnItemClickListener listener) {
+    private CategoriesListAdapter(OnItemClickListener listener, OnItemLongClickListener longClickListener) {
         this.listener = listener;
+        this.longListener = longClickListener;
     }
 
     @Override
@@ -54,7 +60,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
     @Override
     public void onBindViewHolder(categoriesViewHolder holder, int position) {
-        holder.bind(categories.get(position), listener);
+        holder.bind(categories.get(position), listener, longListener);
     }
 
     @Override
@@ -76,13 +82,21 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
             coloredLine = (LinearLayout) itemView.findViewById(R.id.top_line_colored_by_category);
         }
 
-        public void bind(final Category category, final OnItemClickListener listener ) {
+        public void bind(final Category category, final OnItemClickListener listener,
+                         final OnItemLongClickListener longClickListener ) {
             title.setText(category.getName());
             categoryIcon.setImageResource(category.getIcon());
             coloredLine.setBackgroundColor(category.getColor());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onItemClick(category);
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClickListener.onLongClick(category);
+                    return true;
                 }
             });
         }

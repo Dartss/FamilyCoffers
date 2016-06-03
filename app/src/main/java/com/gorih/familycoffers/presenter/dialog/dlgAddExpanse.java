@@ -91,7 +91,7 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         }
 
         if (isValid(value)) {
-            Expanse newExpanse = new Expanse(value, System.currentTimeMillis(), category);
+            Expanse newExpanse = new Expanse(value, System.currentTimeMillis(), category.getId());
             mListener.onNewExpanseAdded(newExpanse);
             dismiss();
         }
@@ -111,18 +111,5 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
             Log.e(LOGTAG, "Error getting mChildFragmentManager field", e);
         }
         sChildFragmentManagerField = f;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        if (sChildFragmentManagerField != null) {
-            try {
-                sChildFragmentManagerField.set(this, null);
-            } catch (Exception e) {
-                Log.e(LOGTAG, "Error setting mChildFragmentManager field", e);
-            }
-        }
     }
 }

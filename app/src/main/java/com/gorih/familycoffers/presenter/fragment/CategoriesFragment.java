@@ -17,6 +17,7 @@ import com.gorih.familycoffers.controller.CategoriesListAdapter;
 import com.gorih.familycoffers.model.Category;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
+import com.gorih.familycoffers.presenter.dialog.dlgEditCategory;
 
 public class CategoriesFragment extends AbstractFragment {
     private static final String TAG = "--CategoriesFrag--";
@@ -51,7 +52,17 @@ public class CategoriesFragment extends AbstractFragment {
                         newExpanseFragment.show(manager, "add expanse");
                     }
                 };
-        CategoriesListAdapter.init(onItemClickListener);
+
+        CategoriesListAdapter.OnItemLongClickListener onItemLongClickListener =
+                new CategoriesListAdapter.OnItemLongClickListener() {
+                    @Override
+                    public void onLongClick(Category item) {
+                        DialogFragment categoryEditor = dlgEditCategory.newInstance(item.getId());
+                        android.support.v4.app.FragmentManager manager = getChildFragmentManager();
+                        categoryEditor.show(manager, "edit expanse");
+                    }
+                };
+        CategoriesListAdapter.init(onItemClickListener, onItemLongClickListener);
 
         listWithCategoriesRv.setAdapter(CategoriesListAdapter.getInstance());
     }

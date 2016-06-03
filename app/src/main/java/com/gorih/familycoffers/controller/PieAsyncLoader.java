@@ -12,6 +12,7 @@ import com.gorih.familycoffers.model.Expanse;
 import java.util.ArrayList;
 
 public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
+    private static final String TAG = "---PAL--";
     DBWorker dbWorker;
     Long dateFrom;
 
@@ -28,14 +29,14 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
         ArrayList<Expanse> allExpanses = new ArrayList<>();
 
         if (dateFrom > 0) {
-            Log.d("---PAL--", "filtered cursor");
+            Log.d(TAG, "filtered cursor");
             String selection = "date > ?";
             String[] selectionArgs = new String[] { dateFrom.toString() };
 
             cursor = db.query("expanses", null, selection, selectionArgs, null, null,
                     null);
         } else {
-            Log.d("---PAL--", "default cursor");
+            Log.d(TAG, "default cursor");
             cursor = db.query("expanses", null, null, null, null, null, null);
         }
 
@@ -49,15 +50,14 @@ public class PieAsyncLoader extends AsyncTaskLoader<ArrayList<Expanse>> {
                 Float expanseValue = cursor.getFloat(valueColIndex);
                 Long expanseDate = cursor.getLong(dateColIndex);
 
-                allExpanses.add(new Expanse(expanseValue, expanseDate,
-                        Categories.instance.findCategoryById(expanseCategoryId)));
+                allExpanses.add(new Expanse(expanseValue, expanseDate, expanseCategoryId));
             } while (cursor.moveToNext());
 
         } else {
-            Log.d("---Log---", "size is zerro");
+            Log.d(TAG, "size is zerro");
         }
 
-        Log.d("---Log---", "\t" + allExpanses);
+//        Log.d(TAG, "\t" + allExpanses);
 
         return allExpanses;
     }
