@@ -16,12 +16,11 @@ import android.widget.ScrollView;
 import com.gorih.familycoffers.Constants;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.controller.DBWorker;
-import com.gorih.familycoffers.controller.FileWorker;
 import com.gorih.familycoffers.controller.FilterListener;
 import com.gorih.familycoffers.controller.PieAsyncLoader;
 import com.gorih.familycoffers.controller.PieDrawer;
 import com.gorih.familycoffers.controller.StatisticsListAdapter;
-import com.gorih.familycoffers.controller.Utility;
+import com.gorih.familycoffers.controller.StatisticsViewCrutch;
 import com.gorih.familycoffers.model.CategIdAndValue;
 import com.gorih.familycoffers.model.Expanse;
 
@@ -121,7 +120,7 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
 
         Log.d(TAG, "list conunt = "+listView.getAdapter().getCount());
         linearLayoutContainer.addView(listView);
-        Utility.setListViewHeightBasedOnChildren(listView);
+        StatisticsViewCrutch.setListViewHeightBasedOnChildren(listView);
         frameLayoutPie.addView(linearLayoutContainer);
         frameLayoutPie.scrollTo(0,0);
     }

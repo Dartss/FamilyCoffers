@@ -1,20 +1,29 @@
 package com.gorih.familycoffers;
 
 import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.gorih.familycoffers.controller.CategoriesListAdapter;
 import com.gorih.familycoffers.controller.DBWorker;
 import com.gorih.familycoffers.controller.FileWorker;
@@ -25,23 +34,31 @@ import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 import com.gorih.familycoffers.presenter.dialog.dlgEditCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgFirstLaunch;
+import com.gorih.familycoffers.presenter.dialog.dlgSelectLanguage;
 import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener,
-        dlgAddCategory.OnNewCategoryAddedListener, dlgEditCategory.CategoryEditedListener {
+        dlgAddCategory.OnNewCategoryAddedListener, dlgEditCategory.CategoryEditedListener,
+        dlgSelectLanguage.LanguageSelectionListener {
 
     private static final String TAG = "--MainActivity--";
 
     private Toolbar toolbar;
     private static final int LAYOUT = R.layout.activity_main;
     private ViewPager viewPager;
-
+    private Locale locale;
     private DBWorker dbWorker = DBWorker.getInstance(this);
     SharedPreferences sharedPreferences;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +66,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
         Log.d(TAG, "onCreate");
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Categories.initiation(this);
         initToolbar();
         initNavigationView();
         initTabs();
+        sharedPreferences = getSharedPreferences("com.gorih.familycoffers", MODE_PRIVATE);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
 
     private void initTabs() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -66,6 +86,7 @@ public class MainActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
+
 
     private void initNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
@@ -77,14 +98,14 @@ public class MainActivity extends AppCompatActivity
                         alertDialog(Constants.ACTION_CLEAR_CATEGORIES);
                         break;
                     case R.id.feel_db:
-//                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "This function not available yet", Toast.LENGTH_SHORT).show();
                         fillDBWithDefaultData();
                         break;
                     case R.id.menu_item_clear_database:
                         alertDialog(Constants.ACTION_ERASE_DB);
                         break;
                     case R.id.menu_item_synchronize:
-                        Toast.makeText(getApplicationContext(), "This function not avalible yet", Toast.LENGTH_SHORT).show();
+                        dlgSelectLanguage.newInstance().show(getSupportFragmentManager(), "select language");
                         break;
                 }
                 return true;
@@ -111,14 +132,81 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.gorih.familycoffers/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.gorih.familycoffers/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        FileWorker.getInstance(this).rewriteCategoriesList();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.disconnect();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Sorry...no better ideas
+        System.exit(0);
+    }
+
+    @Override
+    public void onNewCategoryAdded(String newCategoryName, int newCategoryColor) {
+        Categories.instance.addNewCategory(newCategoryName, newCategoryColor);
+        CategoriesListAdapter.getInstance().setNewList();
+        CategoriesListAdapter.getInstance().notifyDataSetChanged();
+        Log.d(TAG, "after adding count = " + CategoriesListAdapter.getInstance().getItemCount());
+    }
+
+    @Override
+    public void onCategoryChanged(String categoryNewName, int categoryNewColor, int targetCategoryId) {
+        Log.d(TAG, "onCategoryChanged");
+        Categories.instance.changeCategory(targetCategoryId, categoryNewName, categoryNewColor);
+        CategoriesListAdapter.getInstance().notifyDataSetChanged();
+        StatisticsFragment.statisticsFragment.refresh();
+    }
+
+
+    @Override
     public void onNewExpanseAdded(Expanse newExpanse) {
         dbWorker.addToDB(newExpanse);
         Log.d("dlgAddExpanse", "new expanse added: " + newExpanse.toString());
     }
 
+
     @Override
     public void onModeSelected(int mode) {
-        if(mode == Constants.OFFLINE_MODE) {
+        if (mode == Constants.OFFLINE_MODE) {
             Toast.makeText(this, "Offline mode", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Online mode", Toast.LENGTH_SHORT).show();
@@ -129,10 +217,22 @@ public class MainActivity extends AppCompatActivity
         editor.apply();
     }
 
+    @Override
+    public void onLanguageSelected(String langId) {
+        Locale myLocale = new Locale(langId);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        StatisticsFragment.statisticsFragment.refresh();
+//        Intent refresh = new Intent(this, MainActivity.class);
+//        startActivity(refresh);
+    }
 
     public void fillDBWithDefaultData() {
         ArrayList<Expanse> expanses = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
@@ -140,7 +240,7 @@ public class MainActivity extends AppCompatActivity
             Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), 0);
             expanses.add(expanse);
         }
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
@@ -148,7 +248,7 @@ public class MainActivity extends AppCompatActivity
             Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), 1);
             expanses.add(expanse);
         }
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, i);
@@ -174,11 +274,11 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(R.string.alert_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(actionID == Constants.ACTION_ERASE_DB){
+                        if (actionID == Constants.ACTION_ERASE_DB) {
                             DBWorker.getInstance(getApplicationContext()).eraseDB();
                             Toast.makeText(getApplicationContext(), R.string.toast_after_erasing_db, Toast.LENGTH_SHORT).show();
                         }
-                        if(actionID == Constants.ACTION_CLEAR_CATEGORIES){
+                        if (actionID == Constants.ACTION_CLEAR_CATEGORIES) {
                             DBWorker.getInstance(getApplicationContext()).eraseDB();
                             Categories.instance.removeAllCategories();
                             CategoriesListAdapter.getInstance().setNewList();
@@ -193,33 +293,6 @@ public class MainActivity extends AppCompatActivity
         alertBuilder.show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FileWorker.getInstance(this).rewriteCategoriesList();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //Sorry...no better ideas
-        System.exit(0);
-    }
-
-    @Override
-    public void onNewCategoryAdded(String newCategoryName, int newCategoryColor) {
-        Categories.instance.addNewCategory(newCategoryName, newCategoryColor);
-        CategoriesListAdapter.getInstance().setNewList();
-        CategoriesListAdapter.getInstance().notifyDataSetChanged();
-        Log.d(TAG, "after adding count = "+CategoriesListAdapter.getInstance().getItemCount());
-    }
-
-    @Override
-    public void onCategoryChanged(String categoryNewName, int categoryNewColor, int targetCategoryId) {
-        Categories.instance.changeCategory(targetCategoryId, categoryNewName, categoryNewColor);
-        CategoriesListAdapter.getInstance().notifyDataSetChanged();
-        StatisticsFragment.statisticsFragment.refresh();
-    }
 }
 
 //    private void initFamilyId() {

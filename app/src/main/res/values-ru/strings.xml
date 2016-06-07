@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EZ Counter</string>
+    <string name="add_">добавить</string>
+    <string name="search_tittle">Поиск</string>
+    <string name="navigation_expanses">Пункт</string>
+    <string name="navigation_statistics">Статистика</string>
+    <string name="navigation_three">Tab Three</string>
+    <string name="view_navigation_open">Открыть</string>
+    <string name="view_navigation_close">Закрыть</string>
+    <string name="tab_item_history">История</string>
+    <string name="tab_item_statistics">Статистика</string>
+    <string name="tab_item_expanses">Категории</string>
+    <string name="dlg_new_category_btn_ok">Да</string>
+    <string name="dlg_new_category_tittle">Новая категория</string>
+    <string name="dlg_new_expanse_tittle">Добавить пункт</string>
+    <string name="empty_statistics_text">Нет данных</string>
+    <string name="str_for_testing">Test String</string>
+    <string name="tv1_first_launch">Это первый запуск приложения</string>
+    <string name="tv_select_mode">Выберете режим</string>
+    <string name="btn_launch_mode_offline">Одиночный</string>
+    <string name="btn_select_mode_online">Груповой</string>
+    <string name="history_table_header_date">Дата</string>
+    <string name="history_table_header_category">Категория</string>
+    <string name="history_table_header_value">Кол-во</string>
+    <string name="rb_history_today">Сегодня</string>
+    <string name="rb_history_month">Месяц</string>
+    <string name="rb_history_alltime">Все</string>
+    <string name="menu_item_clear_database">Очистить базу</string>
+    <string name="menu_item_synchronize">Synchronize</string>
+    <string name="menu_item_create_new_family">Create new family</string>
+    <string name="menu_item_join_family">Join family</string>
+    <string name="alert_erasing_db_title">Внимание</string>
+    <string name="alert_erasing_db_message">Этим действием вы удалите всю статистику и пункты. Вы уверены?</string>
+    <string name="alert_no">Нет</string>
+    <string name="alert_yes">Да</string>
+    <string name="toast_after_erasing_db">Все информация удалена</string>
+    <string name="cab_delete">удалить</string>
+    <string name="cab_edit">редактировать</string>
+    <string name="et_dlg_add_category">Название категории</string>
+    <string name="btn_dlg_add_category_positive">Хорошо</string>
+    <string name="btn_dlg_add_category_negative">Отмена</string>
+    <string name="menu_item_clear_categories">Удалить все категории</string>
+    <string name="btn_accept_dlg_select_language">Принять</string>
+    <string name="rb_english_dlg_select_language">English</string>
+    <string name="rb_ukrainian_dlg_select_language">Українська</string>
+    <string name="rb_russian_dlg_select_language">Русский</string>
+    <string name="title_dlg_select_language">Выберете язык</string>
+    <string name="menu_language">Язык</string>
+
+</resources>

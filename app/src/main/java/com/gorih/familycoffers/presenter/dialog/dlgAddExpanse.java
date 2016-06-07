@@ -35,15 +35,15 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         void onNewExpanseAdded(Expanse newExpanse);
     }
 
-    public static dlgAddExpanse newInstance(int categoryId) {
-        dlgAddExpanse instance = new dlgAddExpanse();
-
-        Bundle args = new Bundle();
-        args.putInt("CategoryId", categoryId);
-        instance.setArguments(args);
-
-        return instance;
-    }
+//    public static dlgAddExpanse newInstance(int categoryId) {
+//        dlgAddExpanse instance = new dlgAddExpanse();
+//
+//        Bundle args = new Bundle();
+//        args.putInt("CategoryId", categoryId);
+//        instance.setArguments(args);
+//
+//        return instance;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

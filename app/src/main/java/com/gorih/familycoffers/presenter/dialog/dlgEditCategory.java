@@ -53,7 +53,6 @@ public class dlgEditCategory extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setStyle(STYLE_NO_TITLE, 0);
         super.onCreate(savedInstanceState);
 
         category = Categories.instance.findCategoryById(getArguments().getInt("CategoryId"));
@@ -91,12 +90,14 @@ public class dlgEditCategory extends DialogFragment implements View.OnClickListe
 
         if(v.getId() == R.id.btn_dlg_add_category_negative) {
             dismiss();
+            return;
         }
 
         if (isValid(inputValue)){
             listener.onCategoryChanged(newNameField.getText().toString(), lobsterPicker.getColor(), category.getId());
             dismiss();
         }
+
     }
 
     @Override
@@ -106,11 +107,7 @@ public class dlgEditCategory extends DialogFragment implements View.OnClickListe
     }
 
     boolean isValid(String newCategoryName){
-        if (newCategoryName.equals("")) {
-            return false;
-        }
-
-        return true;
+        return !newCategoryName.equals("");
     }
 
 }

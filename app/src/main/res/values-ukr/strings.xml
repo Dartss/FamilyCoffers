@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Підрахуймо</string>
+    <string name="add_">додати</string>
+    <string name="search_tittle">Пошук</string>
+    <string name="navigation_expanses">Категорії</string>
+    <string name="navigation_statistics">Статистика</string>
+    <string name="cab_edit">edit</string>
+    <string name="navigation_three">Tab Three</string>
+    <string name="str_for_testing">Test String</string>
+    <string name="view_navigation_open">Відкрити</string>
+    <string name="view_navigation_close">Закрити</string>
+    <string name="tab_item_history">Історія</string>
+    <string name="menu_item_create_new_family">Create new family</string>
+    <string name="menu_item_join_family">Join family</string>
+    <string name="tab_item_statistics">Статистика</string>
+    <string name="tab_item_expanses">Категорії</string>
+    <string name="dlg_new_category_btn_ok">Так</string>
+    <string name="dlg_new_category_tittle">Нова категорія</string>
+    <string name="dlg_new_expanse_tittle">Додати пункт</string>
+    <string name="empty_statistics_text">Інформація відсутня</string>
+    <string name="tv1_first_launch">Це перший запуск</string>
+    <string name="tv_select_mode">Отже, оберіть режим</string>
+    <string name="btn_launch_mode_offline">Спілний</string>
+    <string name="btn_select_mode_online">Окремий</string>
+    <string name="history_table_header_date">Коли</string>
+    <string name="history_table_header_category">Що</string>
+    <string name="history_table_header_value">Скільки</string>
+    <string name="rb_history_today">Цей день</string>
+    <string name="rb_history_month">Місяць</string>
+    <string name="rb_history_alltime">Весь час</string>
+    <string name="menu_item_clear_database">Видалити всі пункти</string>
+    <string name="menu_item_synchronize">Синхронизувати</string>
+    <string name="alert_erasing_db_title">Увага</string>
+    <string name="alert_erasing_db_message">Ця дія видлить усі пункти та вашу статистику. Ви впевнені?</string>
+    <string name="alert_no">Ні</string>
+    <string name="alert_yes">Так</string>
+    <string name="toast_after_erasing_db">Усю інформацію видалено</string>
+    <string name="cab_delete">видалити</string>
+    <string name="et_dlg_add_category">Назва категорії</string>
+    <string name="btn_dlg_add_category_positive">Гаразд</string>
+    <string name="btn_dlg_add_category_negative">Відміна</string>
+    <string name="menu_item_clear_categories">Очистити всі категорії</string>
+    <string name="menu_language">Мова</string>
+</resources>

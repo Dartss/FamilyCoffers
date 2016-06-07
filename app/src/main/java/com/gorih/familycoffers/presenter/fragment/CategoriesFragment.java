@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,14 +43,22 @@ public class CategoriesFragment extends AbstractFragment {
         initListener();
     }
 
+
     private void initListener() {
+        final DialogFragment dlgNewExpanse = new dlgAddExpanse();
         CategoriesListAdapter.OnItemClickListener onItemClickListener =
                 new CategoriesListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Category item) {
-                        DialogFragment newExpanseFragment = dlgAddExpanse.newInstance(item.getId());
+//                        DialogFragment newExpanseFragment = dlgAddExpanse.newInstance(item.getId());
+                        Bundle args = new Bundle();
+                        args.putInt("CategoryId", item.getId());
+                        dlgNewExpanse.setArguments(args);
                         android.support.v4.app.FragmentManager manager = getChildFragmentManager();
-                        newExpanseFragment.show(manager, "add expanse");
+//                        dlgNewExpanse.show(manager, "add expanse");
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.add(dlgNewExpanse, null);
+                        ft.commitAllowingStateLoss();
                     }
                 };
 

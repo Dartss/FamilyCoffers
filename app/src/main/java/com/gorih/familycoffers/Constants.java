@@ -1,9 +1,9 @@
 package com.gorih.familycoffers;
 
 public class Constants {
-    public static final int TAB_EXPANSES_LIST = 0;
-    public static final int TAB_STATISTICS = 1;
-    public static final int TAB_HISTORY = 2;
+    public static final int ENGLISH_LANG_ID = 1;
+    public static final int UKRAINIAN_LANG_ID = 2;
+    public static final int RUSSIAN_LANG_ID = 3;
 
     public static final int DEFAULT_CATEGORY_ICON = R.mipmap.ic_plus_box;
 
@@ -16,6 +16,8 @@ public class Constants {
     public static final int HISTORY_FR_ID = 0;
     public static final int ACTION_ERASE_DB = 1;
     public static final int ACTION_CLEAR_CATEGORIES = 0;
+
+
 
     public static class URL {
         public static final String HOST = "http://192.168.0.20:8080/";
