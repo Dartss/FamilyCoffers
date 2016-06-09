@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 public class AbstractFragment extends Fragment {
     protected View view;
     private static final Field sChildFragmentManagerField;
-    private static final String LOGTAG = "FragmentLOG";
-
 
     protected Context context;
 
@@ -36,7 +34,6 @@ public class AbstractFragment extends Fragment {
             f = Fragment.class.getDeclaredField("mChildFragmentManager");
             f.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            Log.e(LOGTAG, "Error getting mChildFragmentManager field", e);
         }
         sChildFragmentManagerField = f;
     }
@@ -49,7 +46,6 @@ public class AbstractFragment extends Fragment {
             try {
                 sChildFragmentManagerField.set(this, null);
             } catch (Exception e) {
-                Log.e(LOGTAG, "Error setting mChildFragmentManager field", e);
             }
         }
     }

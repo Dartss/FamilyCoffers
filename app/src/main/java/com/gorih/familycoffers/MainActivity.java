@@ -1,23 +1,19 @@
 package com.gorih.familycoffers;
 
 import android.app.AlertDialog;
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -30,28 +26,21 @@ import com.gorih.familycoffers.controller.FileWorker;
 import com.gorih.familycoffers.controller.TabsPagerFragmentAdapter;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Expanse;
+import com.gorih.familycoffers.presenter.dialog.dlgAbout;
 import com.gorih.familycoffers.presenter.dialog.dlgAddCategory;
 import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 import com.gorih.familycoffers.presenter.dialog.dlgEditCategory;
-import com.gorih.familycoffers.presenter.dialog.dlgFirstLaunch;
-import com.gorih.familycoffers.presenter.dialog.dlgSelectLanguage;
+import com.gorih.familycoffers.presenter.dialog.dlgHelp;
 import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity
-        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgFirstLaunch.ModeSelectionListener,
-        dlgAddCategory.OnNewCategoryAddedListener, dlgEditCategory.CategoryEditedListener,
-        dlgSelectLanguage.LanguageSelectionListener {
+        implements dlgAddExpanse.OnNewExpanseAddedListener, dlgAddCategory.OnNewCategoryAddedListener,
+        dlgEditCategory.CategoryEditedListener {
 
     private static final String TAG = "--MainActivity--";
 
     private Toolbar toolbar;
     private static final int LAYOUT = R.layout.activity_main;
-    private ViewPager viewPager;
-    private Locale locale;
     private DBWorker dbWorker = DBWorker.getInstance(this);
     SharedPreferences sharedPreferences;
     /**
@@ -65,7 +54,6 @@ public class MainActivity extends AppCompatActivity
         setTheme(R.style.AppDefault);
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
-        Log.d(TAG, "onCreate");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Categories.initiation(this);
@@ -79,7 +67,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initTabs() {
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         TabsPagerFragmentAdapter adapter = new TabsPagerFragmentAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
@@ -88,7 +76,15 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     private void initNavigationView() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -97,15 +93,16 @@ public class MainActivity extends AppCompatActivity
                     case R.id.menu_item_clear_categories:
                         alertDialog(Constants.ACTION_CLEAR_CATEGORIES);
                         break;
-                    case R.id.feel_db:
-//                        Toast.makeText(getApplicationContext(), "This function not available yet", Toast.LENGTH_SHORT).show();
-                        fillDBWithDefaultData();
+                    case R.id.menu_about:
+                        dlgAbout dlgA = dlgAbout.newInstance();
+                        dlgA.show(getSupportFragmentManager(), "about");
                         break;
                     case R.id.menu_item_clear_database:
                         alertDialog(Constants.ACTION_ERASE_DB);
                         break;
-                    case R.id.menu_item_synchronize:
-                        dlgSelectLanguage.newInstance().show(getSupportFragmentManager(), "select language");
+                    case R.id.menu_help:
+                        dlgHelp dlgH = dlgHelp.newInstance();
+                        dlgH.show(getSupportFragmentManager(), "help");
                         break;
                 }
                 return true;
@@ -115,20 +112,16 @@ public class MainActivity extends AppCompatActivity
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         toolbar.setTitle(R.string.app_name);
-
+        setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-
+        toolbar.setNavigationIcon(R.drawable.ic_diamond);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 return false;
             }
         });
-
-        toolbar.inflateMenu(R.menu.menu);
     }
 
     @Override
@@ -185,12 +178,10 @@ public class MainActivity extends AppCompatActivity
         Categories.instance.addNewCategory(newCategoryName, newCategoryColor);
         CategoriesListAdapter.getInstance().setNewList();
         CategoriesListAdapter.getInstance().notifyDataSetChanged();
-        Log.d(TAG, "after adding count = " + CategoriesListAdapter.getInstance().getItemCount());
     }
 
     @Override
     public void onCategoryChanged(String categoryNewName, int categoryNewColor, int targetCategoryId) {
-        Log.d(TAG, "onCategoryChanged");
         Categories.instance.changeCategory(targetCategoryId, categoryNewName, categoryNewColor);
         CategoriesListAdapter.getInstance().notifyDataSetChanged();
         StatisticsFragment.statisticsFragment.refresh();
@@ -200,63 +191,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNewExpanseAdded(Expanse newExpanse) {
         dbWorker.addToDB(newExpanse);
-        Log.d("dlgAddExpanse", "new expanse added: " + newExpanse.toString());
-    }
-
-
-    @Override
-    public void onModeSelected(int mode) {
-        if (mode == Constants.OFFLINE_MODE) {
-            Toast.makeText(this, "Offline mode", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Online mode", Toast.LENGTH_SHORT).show();
-        }
-        sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(Constants.LAUNCHED_FIRST_TIME, false);
-        editor.apply();
-    }
-
-    @Override
-    public void onLanguageSelected(String langId) {
-        Locale myLocale = new Locale(langId);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        StatisticsFragment.statisticsFragment.refresh();
-//        Intent refresh = new Intent(this, MainActivity.class);
-//        startActivity(refresh);
-    }
-
-    public void fillDBWithDefaultData() {
-        ArrayList<Expanse> expanses = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.MONTH, i);
-
-            Expanse expanse = new Expanse(i + 8, calendar.getTimeInMillis(), 0);
-            expanses.add(expanse);
-        }
-        for (int i = 0; i < 4; i++) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.MONTH, i);
-
-            Expanse expanse = new Expanse(i + 10, calendar.getTimeInMillis(), 1);
-            expanses.add(expanse);
-        }
-        for (int i = 0; i < 4; i++) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.MONTH, i);
-
-            Expanse expanse = new Expanse(i + 12, calendar.getTimeInMillis(), 2);
-            expanses.add(expanse);
-        }
-        DBWorker.getInstance(this).addExpansesList(expanses);
     }
 
     private void alertDialog(final int actionID) {
@@ -294,64 +228,3 @@ public class MainActivity extends AppCompatActivity
     }
 
 }
-
-//    private void initFamilyId() {
-//        sharedPreferences = getPreferences(MODE_PRIVATE);
-//        boolean firstLaunch = sharedPreferences.getBoolean(Constants.LAUNCHED_FIRST_TIME, true);
-//
-//        if (firstLaunch) {
-//            DialogFragment firsLaunchDlg = dlgFirstLaunch.newInstance();
-//            firsLaunchDlg.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-//            firsLaunchDlg.show(getSupportFragmentManager(), "first launch");
-//        }
-//    }
-
-//  private class FamilyIdGetter extends AsyncTask<Void, Void, Long> {
-//
-//    @Override
-//    protected Long doInBackground(Void... params) {
-//        RestTemplate template = new RestTemplate();
-//        template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        ResponseEntity<Long> responseEntity =
-//                template.getForEntity(Constants.URL.GET_FAMILY_ID, Long.class);
-//
-//        return responseEntity.getBody();
-//    }
-//    @Override
-//    protected void onPostExecute(Long aLong) {
-//        saveFamilyId(aLong);
-//    }
-//
-//}
-//
-//    private void saveFamilyId(long memberId) {
-//        sharedPreferences = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putLong(Constants.MEMBER_ID, memberId);
-//        editor.apply();
-//    }
-
-//private class NewExpanseSender extends AsyncTask<Expanse, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(Expanse... params) {
-//            RestTemplate template = new RestTemplate();
-//            template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            try {
-//                for (Expanse expanse : params) {
-//                    Expanse added = template.postForObject(Constants.URL.POST_EXPANSE_ITEM, expanse, Expanse.class);
-//                    Log.d("Expanse Sender", added.toString());
-//                }
-//            } catch (Exception e) {
-//                Log.d("Sending data failed", e.toString());
-//            }
-//            return null;
-//        }
-//    }
-
-//    public boolean isOnline() {
-//        ConnectivityManager cm =
-//                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-//        return netInfo != null && netInfo.isConnectedOrConnecting();
-//    }

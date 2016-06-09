@@ -10,7 +10,7 @@
     <string name="tab_item_history">History</string>
     <string name="tab_item_statistics">Statistics</string>
     <string name="tab_item_expanses">Categories</string>
-    <string name="dlg_new_category_btn_ok">ok</string>
+    <string name="dlg_new_category_btn_ok">OK</string>
     <string name="dlg_new_category_tittle">New category</string>
     <string name="dlg_new_expanse_tittle">Add expanse</string>
     <string name="empty_statistics_text">There are no any expanses yet</string>
@@ -41,10 +41,24 @@
     <string name="btn_dlg_add_category_negative">Cancel</string>
     <string name="menu_item_clear_categories">Clear categories</string>
     <string name="btn_accept_dlg_select_language">Accept</string>
-    <string name="rb_english_dlg_select_language">English</string>
-    <string name="rb_ukrainian_dlg_select_language">Українська</string>
-    <string name="rb_russian_dlg_select_language">Русский</string>
+    <string name="rb_english_dlg_select_language" translatable="false">English</string>
+    <string name="rb_ukrainian_dlg_select_language" translatable="false">Українська</string>
+    <string name="rb_russian_dlg_select_language" translatable="false">Русский</string>
     <string name="title_dlg_select_language">Select language</string>
     <string name="menu_language">Language</string>
+    <string name="menu_about">About</string>
+    <string name="menu_help">Help</string>
+    <string name="btn_ok_dlg_about">Understood</string>
+    <string name="tv_dlg_about">Hello, dear user!
+        This application was developed by Bulanyi Dmitry. Main reason for creating this program was to
+        practice in developing apps for android and add this project to my portfolio. Functionally, the
+        program is designed to help you count any things and then see the overall picture in graphics
+        and history. Thanks for uploading. I will by glad to answer your questions and wishes:
+        didartss@gmail.com or in Skype: didartss.
+        </string>
+    <string name="tv_dlg_help">Application will help you count anything you want. Just add category,
+    name it and chose color. After that you can add values by categories, watch statistics and history
+    of adding. You can always change color or rename category - just long touch on what you want to edit.
+    In history tab long push on row will allow to select rows and delete them.</string>
 
 </resources>

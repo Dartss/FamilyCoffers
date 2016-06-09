@@ -45,13 +45,8 @@ public class HistoryMultiChoiceImpl implements AbsListView.MultiChoiceModeListen
     }
 
     @Override
-    //Вызывается при клике на любой Item из СAB
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        if(menuItem.getItemId() == R.id.cab_delete) {
-            DBWorker.dbWorker.delFromDB(listView.getCheckedItemIds());
-        } else {
-            Toast.makeText(listView.getContext(), "Option coming soon=)", Toast.LENGTH_SHORT).show();
-        }
+        DBWorker.dbWorker.delFromDB(listView.getCheckedItemIds());
         return false;
     }
 

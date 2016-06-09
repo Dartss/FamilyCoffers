@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/feel_db"
-        android:orderInCategory="1"
-        android:title="Create history"
-        android:icon="@mipmap/ic_square_inc_cash">
-    </item>
-
-    <item
         android:id="@+id/menu_item_clear_categories"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="@string/menu_item_clear_categories"
         android:icon="@mipmap/ic_square_inc_cash">
     </item>
 
     <item
         android:id="@+id/menu_item_clear_database"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="@string/menu_item_clear_database"
         android:icon="@mipmap/ic_square_inc_cash">
     </item>
 
     <item
-        android:id="@+id/menu_item_synchronize"
+        android:id="@+id/menu_about"
+        android:orderInCategory="3"
+        android:title="@string/menu_about"
+        android:icon="@mipmap/ic_square_inc_cash">
+    </item>
+
+    <item
+        android:id="@+id/menu_help"
         android:orderInCategory="4"
-        android:title="@string/menu_language"
+        android:title="@string/menu_help"
         android:icon="@mipmap/ic_square_inc_cash">
     </item>
 </menu>

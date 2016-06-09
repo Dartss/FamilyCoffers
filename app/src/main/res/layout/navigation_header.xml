@@ -4,6 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="@color/colorPrimaryDark">
+    android:background="@drawable/navigation_header_back">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_navigation_header_tittle"
+        android:textSize="30sp"
+        android:text="@string/app_name"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="70dp" />
 </LinearLayout>

@@ -21,7 +21,6 @@ import com.gorih.familycoffers.presenter.dialog.dlgAddExpanse;
 import com.gorih.familycoffers.presenter.dialog.dlgEditCategory;
 
 public class CategoriesFragment extends AbstractFragment {
-    private static final String TAG = "--CategoriesFrag--";
     private DialogFragment dlgAddCategory;
     private static final int LAYOUT = R.layout.fragment_categories;
     RecyclerView listWithCategoriesRv;
@@ -50,15 +49,11 @@ public class CategoriesFragment extends AbstractFragment {
                 new CategoriesListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Category item) {
-//                        DialogFragment newExpanseFragment = dlgAddExpanse.newInstance(item.getId());
                         Bundle args = new Bundle();
                         args.putInt("CategoryId", item.getId());
                         dlgNewExpanse.setArguments(args);
                         android.support.v4.app.FragmentManager manager = getChildFragmentManager();
-//                        dlgNewExpanse.show(manager, "add expanse");
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.add(dlgNewExpanse, null);
-                        ft.commitAllowingStateLoss();
+                        dlgNewExpanse.show(manager, "new expanse");
                     }
                 };
 
@@ -96,8 +91,6 @@ public class CategoriesFragment extends AbstractFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "before adding count = "+CategoriesListAdapter.getInstance().getItemCount());
-
                 dlgAddCategory.show(getFragmentManager(), "new category");
             }
         });
