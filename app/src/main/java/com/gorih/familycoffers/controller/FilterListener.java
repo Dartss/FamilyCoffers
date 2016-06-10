@@ -9,10 +9,9 @@ import com.gorih.familycoffers.presenter.fragment.HistoryFragment;
 import com.gorih.familycoffers.presenter.fragment.StatisticsFragment;
 
 import java.util.Calendar;
-//
+
 public class FilterListener implements RadioGroup.OnCheckedChangeListener {
     private Long timeFilterValue = 0L;
-    private static final String LOG = "--FilterListener__";
     private int callingFragmentId;
 
     public FilterListener(int callingFragmentId) {
@@ -24,7 +23,6 @@ public class FilterListener implements RadioGroup.OnCheckedChangeListener {
         Calendar c = Calendar.getInstance();
         switch (checkedId) {
             case R.id.rb_history_today:
-                Log.d(LOG, "Today");
                 c.set(Calendar.HOUR_OF_DAY, 0);
                 c.set(Calendar.MINUTE, 0);
                 c.set(Calendar.SECOND, 0);
@@ -32,7 +30,6 @@ public class FilterListener implements RadioGroup.OnCheckedChangeListener {
                 timeFilterValue = c.getTimeInMillis();
                 break;
             case R.id.rb_history_month:
-                Log.d(LOG, "Month");
                 c.set(Calendar.DAY_OF_MONTH, 1);
                 c.set(Calendar.HOUR_OF_DAY, 0);
                 c.set(Calendar.MINUTE, 0);
@@ -41,7 +38,6 @@ public class FilterListener implements RadioGroup.OnCheckedChangeListener {
                 timeFilterValue = c.getTimeInMillis();
                 break;
             case R.id.rb_history_alltime:
-                Log.d(LOG, "All Time");
                 timeFilterValue = 0L;
                 break;
         }
@@ -53,8 +49,6 @@ public class FilterListener implements RadioGroup.OnCheckedChangeListener {
 
         if (callingFragmentId == Constants.HISTORY_FR_ID) {
             HistoryFragment.historyFragment.onFilterSelected(timeFilterValue);
-        } else {
-            Log.d(LOG, "Wrong Fragment ID");
         }
     }
 

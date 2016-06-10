@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
 
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 

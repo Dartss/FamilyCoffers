@@ -16,16 +16,11 @@ import java.util.Map;
 
 
 public class TabsPagerFragmentAdapter extends FragmentPagerAdapter {
-
     private Map<Integer, AbstractFragment> tabs;
-    private Context context;
 
     public TabsPagerFragmentAdapter (Context context, FragmentManager fm) {
         super(fm);
-        this.context = context;
-
         initTabsMap(context);
-
     }
 
     private void initTabsMap(Context context) {

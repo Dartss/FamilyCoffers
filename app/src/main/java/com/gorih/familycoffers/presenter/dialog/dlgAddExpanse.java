@@ -3,8 +3,6 @@ package com.gorih.familycoffers.presenter.dialog;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +14,11 @@ import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
 import com.gorih.familycoffers.model.Expanse;
 
-import java.lang.reflect.Field;
-
 
 public class dlgAddExpanse extends DialogFragment implements View.OnClickListener {
     private EditText newExpanseValue;
     private Category category;
     private final float MAX_VALUE = 1000000;
-
-    private static final Field sChildFragmentManagerField;
-    private static final String LOGTAG = "DLG_add_expanse";
-
 
     OnNewExpanseAddedListener mListener;
 
@@ -34,16 +26,6 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
     public interface OnNewExpanseAddedListener {
         void onNewExpanseAdded(Expanse newExpanse);
     }
-
-//    public static dlgAddExpanse newInstance(int categoryId) {
-//        dlgAddExpanse instance = new dlgAddExpanse();
-//
-//        Bundle args = new Bundle();
-//        args.putInt("CategoryId", categoryId);
-//        instance.setArguments(args);
-//
-//        return instance;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,14 +84,4 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         return !(value <= 0 || value > MAX_VALUE);
     }
 
-    static {
-        Field f = null;
-        try {
-            f = Fragment.class.getDeclaredField("mChildFragmentManager");
-            f.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            Log.e(LOGTAG, "Error getting mChildFragmentManager field", e);
-        }
-        sChildFragmentManagerField = f;
-    }
 }

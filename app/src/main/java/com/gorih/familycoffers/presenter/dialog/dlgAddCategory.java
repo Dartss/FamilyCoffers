@@ -17,7 +17,6 @@ import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 public class dlgAddCategory extends DialogFragment implements View.OnClickListener {
-    private static final String TAG = "--DlgAddCategory--";
     EditText nameField;
     LobsterPicker lobsterPicker;
 

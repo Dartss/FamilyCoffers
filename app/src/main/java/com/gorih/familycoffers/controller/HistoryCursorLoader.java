@@ -25,8 +25,6 @@ public class HistoryCursorLoader extends CursorLoader {
         String selection = "date > ?";
         String[] selectionArgs = new String[] { dateFilter };
 
-        Cursor c = db.query("expanses", null, selection, selectionArgs, null, null, null);
-
-        return c;
+        return db.query("expanses", null, selection, selectionArgs, null, null, null);
     }
 }
