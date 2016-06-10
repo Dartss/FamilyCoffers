@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">EZ Counter</string>
     <string name="add_">add</string>
-    <string name="search_tittle">Search</string>
-    <string name="navigation_expanses">Expanse</string>
-    <string name="navigation_statistics">Statistics</string>
-    <string name="navigation_three">Tab Three</string>
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
     <string name="tab_item_history">History</string>
@@ -14,11 +10,6 @@
     <string name="dlg_new_category_tittle">New category</string>
     <string name="dlg_new_expanse_tittle">Add expanse</string>
     <string name="empty_statistics_text">There are no any expanses yet</string>
-    <string name="str_for_testing">Test String</string>
-    <string name="tv1_first_launch">Seems like it\'s first launch</string>
-    <string name="tv_select_mode">Which mode would you like</string>
-    <string name="btn_launch_mode_offline">Offline</string>
-    <string name="btn_select_mode_online">Online</string>
     <string name="history_table_header_date">DATE</string>
     <string name="history_table_header_category">CATEGORY</string>
     <string name="history_table_header_value">VALUE</string>
@@ -26,25 +17,19 @@
     <string name="rb_history_month">Month</string>
     <string name="rb_history_alltime">All time</string>
     <string name="menu_item_clear_database">Clear database</string>
-    <string name="menu_item_synchronize">Synchronize</string>
-    <string name="menu_item_create_new_family">Create new family</string>
-    <string name="menu_item_join_family">Join family</string>
     <string name="alert_erasing_db_title">Attention</string>
     <string name="alert_erasing_db_message">This action will delete all expanses and statistics. Are you sure?</string>
     <string name="alert_no">No</string>
     <string name="alert_yes">Yes</string>
     <string name="toast_after_erasing_db">All data deleted</string>
     <string name="cab_delete">delete</string>
-    <string name="cab_edit">edit</string>
     <string name="et_dlg_add_category">Category name</string>
     <string name="btn_dlg_add_category_positive">Apply</string>
     <string name="btn_dlg_add_category_negative">Cancel</string>
     <string name="menu_item_clear_categories">Clear categories</string>
-    <string name="btn_accept_dlg_select_language">Accept</string>
     <string name="rb_english_dlg_select_language" translatable="false">English</string>
     <string name="rb_ukrainian_dlg_select_language" translatable="false">Українська</string>
     <string name="rb_russian_dlg_select_language" translatable="false">Русский</string>
-    <string name="title_dlg_select_language">Select language</string>
     <string name="menu_language">Language</string>
     <string name="menu_about">About</string>
     <string name="menu_help">Help</string>
