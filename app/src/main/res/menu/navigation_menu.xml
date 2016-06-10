@@ -4,27 +4,27 @@
         android:id="@+id/menu_item_clear_categories"
         android:orderInCategory="1"
         android:title="@string/menu_item_clear_categories"
-        android:icon="@mipmap/ic_square_inc_cash">
+        android:icon="@mipmap/ic_playlist_remove">
     </item>
 
     <item
         android:id="@+id/menu_item_clear_database"
         android:orderInCategory="2"
         android:title="@string/menu_item_clear_database"
-        android:icon="@mipmap/ic_square_inc_cash">
+        android:icon="@mipmap/ic_database_minus">
     </item>
 
     <item
         android:id="@+id/menu_about"
         android:orderInCategory="3"
         android:title="@string/menu_about"
-        android:icon="@mipmap/ic_square_inc_cash">
+        android:icon="@mipmap/ic_information_outline">
     </item>
 
     <item
         android:id="@+id/menu_help"
         android:orderInCategory="4"
         android:title="@string/menu_help"
-        android:icon="@mipmap/ic_square_inc_cash">
+        android:icon="@mipmap/ic_help_circle_outline">
     </item>
 </menu>

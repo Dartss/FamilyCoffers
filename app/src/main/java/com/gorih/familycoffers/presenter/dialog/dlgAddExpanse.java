@@ -38,7 +38,7 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_add_expanse, null);
+        View v = inflater.inflate(R.layout.dlg_add_expanse, null);
 
         TextView tvExpanseCategory = (TextView) v.findViewById(R.id.tv_dlg_expanse_category_name);
         tvExpanseCategory.setText(category.getName());

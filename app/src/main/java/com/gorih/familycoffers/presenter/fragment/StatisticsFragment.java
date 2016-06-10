@@ -68,7 +68,7 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         this.view = inflater.inflate(LAYOUT, null, false);
 
         DBWorker.getInstance(this.context).addObserverTodb(this);
-        filterRadioGroup = (RadioGroup) inflater.inflate(R.layout.history_radio_group, linearLayoutContainer, false);
+        filterRadioGroup = (RadioGroup) inflater.inflate(R.layout.filter_radio_group, linearLayoutContainer, false);
         filterRadioGroup.setOnCheckedChangeListener(new FilterListener(Constants.STATISTICS_FR_ID));
 
         listView = new ListView(this.context);

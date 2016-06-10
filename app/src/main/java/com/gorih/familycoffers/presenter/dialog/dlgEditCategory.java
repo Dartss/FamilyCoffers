@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.EdgeEffectCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class dlgEditCategory extends DialogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().setTitle("Edit category");
-        View v = inflater.inflate(R.layout.dialog_add_category, null);
+        View v = inflater.inflate(R.layout.dlg_add_category, null);
 
         Button apply = (Button) v.findViewById(R.id.btn_dlg_add_category_positive);
         apply.setOnClickListener(this);

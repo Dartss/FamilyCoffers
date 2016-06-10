@@ -7,7 +7,7 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <include layout="@layout/history_radio_group"
+    <include layout="@layout/filter_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

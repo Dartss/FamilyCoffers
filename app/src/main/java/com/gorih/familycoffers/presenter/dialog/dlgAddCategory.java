@@ -30,7 +30,7 @@ public class dlgAddCategory extends DialogFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().setTitle(R.string.dlg_new_category_tittle);
-        View v = inflater.inflate(R.layout.dialog_add_category, null);
+        View v = inflater.inflate(R.layout.dlg_add_category, null);
 
         Button apply = (Button) v.findViewById(R.id.btn_dlg_add_category_positive);
         apply.setOnClickListener(this);

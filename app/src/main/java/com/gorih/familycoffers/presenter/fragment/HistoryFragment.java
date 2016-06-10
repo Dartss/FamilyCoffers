@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
@@ -61,7 +60,7 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
         String[] from = new String[] { "category_id", "value" , "date"};
         int[] to = new int[] { R.id.iv_history_item_category, R.id.tv_history_item_value, R.id.tv_history_item_date};
 
-        adapter = new SimpleCursorAdapter(this.context, R.layout.history_list_item, null, from, to, 0);
+        adapter = new SimpleCursorAdapter(this.context, R.layout.item_history_list, null, from, to, 0);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
