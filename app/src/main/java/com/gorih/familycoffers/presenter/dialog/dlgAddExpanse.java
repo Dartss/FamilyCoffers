@@ -1,6 +1,7 @@
 package com.gorih.familycoffers.presenter.dialog;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -79,6 +80,11 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        newExpanseValue.setText("");
+    }
 
     private boolean isValid(float value) {
         return !(value <= 0 || value > MAX_VALUE);

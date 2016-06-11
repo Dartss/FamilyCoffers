@@ -30,13 +30,13 @@
     <string name="menu_item_clear_categories">Удалить все категории</string>
     <string name="menu_language">Язык</string>
     <string name="menu_about">О приложении</string>
-    <string name="menu_help">Помощ</string>
+    <string name="menu_help">Помощь</string>
     <string name="btn_ok_dlg_about">Понятно</string>
     <string name="tv_dlg_about">Здравствуйте, уважаемый пользователь!
         Эта программа была разработана для практики в области разработки приложений под Android и
         расширения моего портфолио. Функционально она предназначена, чтобы помочь вам посчитать
         что-угодно, а затем увидеть общую картину наглядно. Благодарю за загрузку.
-        Я с радостью ответчу на ваши вопросы и пожелания: didartss@gmail.com или в Skype: didartss.
+        Я с радостью отвечу на ваши вопросы и пожелания: didartss@gmail.com или в Skype: didartss.
         Буланый Дмитрий.</string>
     <string name="tv_dlg_help">Приложение поможет вам вести учет, всего, что может в нем нуждаться.
         Просто добавьте категорию, назовите её и выберете цвет. После этого вы сможете добавлять
