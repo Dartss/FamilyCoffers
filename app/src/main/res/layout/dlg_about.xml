@@ -25,6 +25,7 @@
             android:layout_alignRight="@+id/tv_dlg_about"
             android:layout_alignEnd="@+id/tv_dlg_about"
             android:paddingTop="6dp"
-            style="?android:attr/borderlessButtonStyle"/>
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_gravity="right" />
     </LinearLayout>
 </ScrollView>

@@ -1,15 +1,19 @@
 package com.gorih.familycoffers.presenter.dialog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gorih.familycoffers.MainActivity;
 import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
@@ -47,6 +51,8 @@ public class dlgAddExpanse extends DialogFragment implements View.OnClickListene
         v.findViewById(R.id.button_dlg_expanse_confirm).setOnClickListener(this);
 
         newExpanseValue = (EditText)v.findViewById(R.id.et_dlg_expanse_value);
+        newExpanseValue.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         return v;
     }

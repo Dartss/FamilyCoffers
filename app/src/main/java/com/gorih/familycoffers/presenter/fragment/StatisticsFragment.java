@@ -34,7 +34,6 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         <ArrayList<Expanse>>, Observer {
     private static final int LAYOUT = R.layout.fragment_statistics;
     private static final int DEFAULT_ID = 1;
-    private static final String TAG = "--StatisticsFR--";
     public static StatisticsFragment statisticsFragment = null;
     private ScrollView frameLayoutPie;
     private LinearLayout linearLayoutContainer;
@@ -118,7 +117,6 @@ public class StatisticsFragment extends AbstractFragment implements LoaderCallba
         linearLayoutContainer.addView(filterRadioGroup);
         linearLayoutContainer.addView(new PieDrawer(this.context, result, sumOfAllExpanses));
 
-        Log.d(TAG, "list conunt = "+listView.getAdapter().getCount());
         linearLayoutContainer.addView(listView);
         StatisticsViewCrutch.setListViewHeightBasedOnChildren(listView);
         frameLayoutPie.addView(linearLayoutContainer);

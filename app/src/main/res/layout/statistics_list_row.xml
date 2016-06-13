@@ -8,8 +8,8 @@
 
     <View
         android:id="@+id/statistics_list_category_color"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="5dp"
         android:paddingLeft="20dp"/>
 
@@ -17,7 +17,7 @@
         android:id="@+id/statistics_list_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:layout_toEndOf="@id/statistics_list_category_color"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statistics_list_percents"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:layout_toEndOf="@id/statistics_list_value"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"

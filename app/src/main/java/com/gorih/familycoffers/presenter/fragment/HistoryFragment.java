@@ -31,7 +31,6 @@ import java.util.Observer;
 public class HistoryFragment extends AbstractFragment implements LoaderManager.
         LoaderCallbacks<Cursor>, Observer{
     private static final int LAYOUT = R.layout.fragment_history;
-    private static final String TAG = "--HistoryFrag--";
     public static HistoryFragment historyFragment = null;
     ListView listView;
     SimpleCursorAdapter adapter;
@@ -109,7 +108,6 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
     public void onFilterSelected(long timeFilterValue){
         this.timeFilterValue = timeFilterValue;
         refresh();
-        Log.d(TAG, "onFilterSelected");
     }
 
     private void refresh(){
@@ -119,7 +117,6 @@ public class HistoryFragment extends AbstractFragment implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader");
         return new HistoryCursorLoader(this.context, timeFilterValue);
     }
 

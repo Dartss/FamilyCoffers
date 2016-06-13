@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.gorih.familycoffers.R;
 import com.gorih.familycoffers.model.Categories;
 import com.gorih.familycoffers.model.Category;
 
@@ -58,7 +59,7 @@ public class PieDrawer extends View {
 
         float mStartAngle = 0;
 
-        canvas.drawCircle(circleCenterCords, circleCenterCords, backgroundCircleRadius, paintColors);
+        canvas.drawCircle(circleCenterCords, circleCenterCords, backgroundCircleRadius+2, paintColors);
         rectf = new RectF(rectXY1, rectXY1, rectXY2, rectXY2);
 
         for(Map.Entry<Integer, Float> entry: toDraw.entrySet()) {
@@ -74,7 +75,6 @@ public class PieDrawer extends View {
 
             paintColors.setColor(Color.WHITE);
             canvas.drawCircle(circleCenterCords, circleCenterCords, foregroundCircleRadius, paintColors);
-
         }
 
     }

@@ -72,14 +72,14 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
         CardView cardView;
         TextView title;
         ImageView categoryIcon;
-        LinearLayout coloredLine;
+        View coloredLine;
 
         public categoriesViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             title = (TextView) itemView.findViewById(R.id.title);
             categoryIcon = (ImageView) itemView.findViewById(R.id.img_btn_category_item_icon);
-            coloredLine = (LinearLayout) itemView.findViewById(R.id.top_line_colored_by_category);
+            coloredLine = itemView.findViewById(R.id.top_line_colored_by_category);
         }
 
         public void bind(final Category category, final OnItemClickListener listener,
